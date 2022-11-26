@@ -9,4 +9,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Tracker extends Model
 {
     use HasFactory, SoftDeletes;
+
+    protected $fillable = [
+        'company_id',
+        'name'
+    ];
+
+    public function company() {
+        return $this->belongsTo(Company::class);
+    }
 }

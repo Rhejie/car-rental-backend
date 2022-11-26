@@ -41,21 +41,22 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('payment-method')
         ->group(function () {
             Route::get('/payment-methods', [App\Http\Controllers\PaymentModeController::class, 'list']);
-            Route::post('/store', [App\Http\Controllers\IdentificationController::class, 'store']);
-            Route::post('/update/{id}', [App\Http\Controllers\IdentificationController::class, 'update']);
-            Route::post('/trash/{id}', [App\Http\Controllers\IdentificationController::class, 'trash']);
-            Route::post('/force-delete/{id}', [App\Http\Controllers\IdentificationController::class, 'forceDelete']);
-            Route::post('/restore/{id}', [App\Http\Controllers\IdentificationController::class, 'restore']);
-        });
-
-    Route::prefix('company')
-        ->group(function () {
-            Route::get('/companies', [App\Http\Controllers\PaymentModeController::class, 'list']);
             Route::post('/store', [App\Http\Controllers\PaymentModeController::class, 'store']);
             Route::post('/update/{id}', [App\Http\Controllers\PaymentModeController::class, 'update']);
             Route::post('/trash/{id}', [App\Http\Controllers\PaymentModeController::class, 'trash']);
             Route::post('/force-delete/{id}', [App\Http\Controllers\PaymentModeController::class, 'forceDelete']);
             Route::post('/restore/{id}', [App\Http\Controllers\PaymentModeController::class, 'restore']);
+        });
+
+    Route::prefix('company')
+        ->group(function () {
+            Route::get('/companies', [App\Http\Controllers\CompanyController::class, 'list']);
+            Route::post('/store', [App\Http\Controllers\CompanyController::class, 'store']);
+            Route::post('/update/{id}', [App\Http\Controllers\CompanyController::class, 'update']);
+            Route::post('/trash/{id}', [App\Http\Controllers\CompanyController::class, 'trash']);
+            Route::post('/force-delete/{id}', [App\Http\Controllers\CompanyController::class, 'forceDelete']);
+            Route::post('/restore/{id}', [App\Http\Controllers\CompanyController::class, 'restore']);
+            Route::get('/select-company', [App\Http\Controllers\CompanyController::class, 'selectCompany']);
         });
 
     Route::prefix('overcharge')->group(function () {
@@ -70,5 +71,15 @@ Route::middleware('auth:sanctum')->group(function () {
         });
 
 
+    });
+
+    Route::prefix('tracker')->group(function () {
+        Route::get('trackers', [App\Http\Controllers\TrackerController::class, 'list']);
+        Route::post('/store', [App\Http\Controllers\TrackerController::class, 'store']);
+        Route::post('/tracker/{id}', [App\Http\Controllers\TrackerController::class, 'tracker']);
+        Route::post('/update/{id}', [App\Http\Controllers\TrackerController::class, 'update']);
+        Route::post('/trash/{id}', [App\Http\Controllers\TrackerController::class, 'trash']);
+        Route::post('/force-delete/{id}', [App\Http\Controllers\TrackerController::class, 'forceDelete']);
+        Route::post('/restore/{id}', [App\Http\Controllers\TrackerController::class, 'restore']);
     });
 });

@@ -11,7 +11,9 @@ class CompanyController extends Controller
     private $companyService;
 
     public function __construct() {
+
         $this->companyService = new CompanyService();
+
     }
 
     public function list(Request $request)
@@ -26,6 +28,12 @@ class CompanyController extends Controller
             'count' => $count
         ];
         return $this->companyService->list(json_decode(json_encode($params)));
+    }
+
+    public function selectCompany() {
+
+        return $this->companyService->selectCompany();
+
     }
 
     public function store(StoreRequest $request) {

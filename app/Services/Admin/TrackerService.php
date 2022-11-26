@@ -2,51 +2,60 @@
 
 namespace App\Services\Admin;
 
-use App\Models\Company;
+use App\Models\Tracker;
 
-class CompanyService {
+class TrackerService {
 
     public function list($params)
     {
-        $companies = Company::query();
+        $overcharges = Tracker::with(['company']);
 
         if($params->search) {
 
-            $companies = $companies->where(function($query) use ($params) {
+            $overcharges = $overcharges->where(function($query) use ($params) {
                 $query->orWhere('name', 'LIKE', "%$params->search%");
             })->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
 
-            return $companies;
+            return $overcharges;
 
         }
 
-        $companies = $companies->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
+        $overcharges = $overcharges->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
 
-        return response()->json($companies, 200);
+        return response()->json($overcharges, 200);
+    }
+
+    public function getTrackerById($id){
+
+        $tracker = Tracker::with(['company'])->find($id);
+
+        return $tracker;
     }
 
     public function store($request) {
 
-        $model = new Company();
+        $model = new Tracker();
         $model->name = $request->name;
+        $model->company_id = $request->company_id;
         $model->save();
 
-        return response()->json($model, 200);
+        return response()->json($this->getTrackerById($model->id), 200);
     }
 
     public function update($request, $id) {
 
-        $model = Company::find($id);
+        $model = Tracker::find($id);
         $model->name = $request->name;
+        $model->company_id = $request->company_id;
         $model->save();
 
-        return response()->json($model, 200);
+        return response()->json($this->getTrackerById($model->id), 200);
 
     }
 
     public function trash($id) {
 
-        $model = Company::find($id);
+        $model = Tracker::find($id);
         $model->delete();
 
         return response()->json(['message' => 'Successfully deleted']);
@@ -54,7 +63,7 @@ class CompanyService {
 
     public function restore($id) {
 
-        $model = Company::onlyTrashed()->find($id);
+        $model = Tracker::onlyTrashed()->find($id);
         $model->restore();
 
         return $model;
@@ -62,14 +71,14 @@ class CompanyService {
 
     public function forceDelete($id) {
 
-        $model = Company::find($id);
+        $model = Tracker::find($id);
         if($model) {
             $model->forceDelete();
             return response()->json(['message' => 'Permanently deleted']);
         }
 
 
-        $model = Company::onlyTrashed()->find($id);
+        $model = Tracker::onlyTrashed()->find($id);
         if($model) {
             $model->forceDelete();
             return response()->json(['message' => 'Permanently deleted']);

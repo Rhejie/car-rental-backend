@@ -18,4 +18,8 @@ class Overcharge extends Model
     public function overchargeType() {
         return $this->belongsTo(OverchargeType::class);
     }
+
+    public function booking() {
+        return $this->belongsTo(Booking::class);
+    }
 }
