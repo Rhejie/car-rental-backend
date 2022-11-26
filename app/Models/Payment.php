@@ -9,4 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Payment extends Model
 {
     use HasFactory, SoftDeletes;
+    public function paymentMode() {
+        return $this->belongsTo(PaymentMode::class);
+    }
 }

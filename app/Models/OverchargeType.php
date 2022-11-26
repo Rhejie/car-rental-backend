@@ -9,4 +9,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class OverchargeType extends Model
 {
     use HasFactory, SoftDeletes;
+
+    protected $fillable = [
+        'name'
+    ];
+    public function overcharges() {
+        return $this->hasMany(Overcharge::class);
+    }
 }

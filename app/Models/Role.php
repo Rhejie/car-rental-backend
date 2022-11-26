@@ -6,16 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Overcharge extends Model
+class Role extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'booking_id',
-        'charge',
-        'overcharge_type_id'
+        'name'
     ];
-    public function overchargeType() {
-        return $this->belongsTo(OverchargeType::class);
+
+    public function users() {
+        return $this->hasMany(User::class);
     }
 }
