@@ -19,7 +19,15 @@ class VehicleController extends Controller
     }
 
     public function list(Request $request) {
+        $search = $request->search && $request->search != '' && $request->search !== 'null' ? $request->search: null ;
+        $page = $request->page ? $request->page : 1;
+        $count = $request->size ? $request->size : 10;
 
+        $params = [
+            'search' => $search,
+            'page' => $page,
+            'count' => $count
+        ];
     }
 
     public function create(CreateRequest $request) {
