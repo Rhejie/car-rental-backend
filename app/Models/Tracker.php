@@ -15,7 +15,24 @@ class Tracker extends Model
         'name'
     ];
 
+    protected $appends = [
+        'status',
+    ];
+
     public function company() {
+
         return $this->belongsTo(Company::class);
+
+    }
+
+    public function vehicle() {
+
+        return $this->belongsTo(Vehicle::class);
+
+    }
+
+    protected function getStatusAttribute()
+    {
+        return $this->vehicle() ? 'used' : 'unused';
     }
 }

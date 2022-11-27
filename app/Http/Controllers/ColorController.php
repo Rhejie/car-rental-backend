@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Identification\StoreRequest;
-use App\Services\Admin\IdentificationService;
+use App\Http\Requests\Color\StoreRequest;
+use App\Services\Admin\ColorService;
 use Illuminate\Http\Request;
 
-class IdentificationController extends Controller
+class ColorController extends Controller
 {
-    private $identificationService;
-
+    private $colorService ;
     public function __construct() {
-
-        $this->identificationService = new IdentificationService();
+        $this->colorService = new ColorService();
     }
+
     public function list(Request $request)
     {
         $search = $request->search && $request->search != '' && $request->search !== 'null' ? $request->search: null ;
@@ -25,33 +24,38 @@ class IdentificationController extends Controller
             'page' => $page,
             'count' => $count
         ];
-        return $this->identificationService->list(json_decode(json_encode($params)));
+        return $this->colorService->list(json_decode(json_encode($params)));
     }
 
     public function store(StoreRequest $request) {
 
-        return $this->identificationService->store($request);
+        return $this->colorService->store($request);
 
     }
 
     public function update(StoreRequest $request, $id) {
 
-        return $this->identificationService->update($request, $id);
+        return $this->colorService->update($request, $id);
 
     }
 
     public function trash($id) {
 
-        return $this->identificationService->trash($id);
+        return $this->colorService->trash($id);
 
     }
 
     public function forceDelete($id){
-        return $this->identificationService->forceDelete($id);
+        return $this->colorService->forceDelete($id);
     }
 
     public function restore($id) {
 
-        return $this->identificationService->restore($id);
+        return $this->colorService->restore($id);
+    }
+
+    public function selectColor()
+    {
+        return $this->colorService->selectColor();
     }
 }

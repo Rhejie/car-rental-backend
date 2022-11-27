@@ -21,7 +21,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/user/login', [App\Http\Controllers\AuthController::class, 'login']);
 
+
+
 Route::middleware('auth:sanctum')->group(function () {
+    // vehicle apis
+
+    Route::prefix('vehicle')->group(function () {
+        Route::post('/create', [App\Http\Controllers\VehicleController::class, 'create']);
+        Route::get('/show/{id}', [App\Http\Controllers\VehicleController::class, 'show']);
+    });
+
+    // Settings apis
     Route::prefix('role')
         ->group(function () {
             Route::get('/roles', [App\Http\Controllers\RoleController::class, 'list']);
@@ -73,6 +83,28 @@ Route::middleware('auth:sanctum')->group(function () {
 
     });
 
+    Route::prefix('color')
+        ->group(function () {
+            Route::get('/colors', [App\Http\Controllers\ColorController::class, 'list']);
+            Route::post('/store', [App\Http\Controllers\ColorController::class, 'store']);
+            Route::post('/update/{id}', [App\Http\Controllers\ColorController::class, 'update']);
+            Route::post('/trash/{id}', [App\Http\Controllers\ColorController::class, 'trash']);
+            Route::post('/force-delete/{id}', [App\Http\Controllers\ColorController::class, 'forceDelete']);
+            Route::post('/restore/{id}', [App\Http\Controllers\ColorController::class, 'restore']);
+            Route::get('/select-color', [App\Http\Controllers\ColorController::class, 'selectColor']);
+        });
+
+    Route::prefix('fuel-type')
+        ->group(function () {
+            Route::get('/fuel-types', [App\Http\Controllers\FuelTypeController::class, 'list']);
+            Route::post('/store', [App\Http\Controllers\FuelTypeController::class, 'store']);
+            Route::post('/update/{id}', [App\Http\Controllers\FuelTypeController::class, 'update']);
+            Route::post('/trash/{id}', [App\Http\Controllers\FuelTypeController::class, 'trash']);
+            Route::post('/force-delete/{id}', [App\Http\Controllers\FuelTypeController::class, 'forceDelete']);
+            Route::post('/restore/{id}', [App\Http\Controllers\FuelTypeController::class, 'restore']);
+            Route::get('/select-fuel-typ', [App\Http\Controllers\FuelTypeController::class, 'selectFuelType']);
+        });
+
     Route::prefix('tracker')->group(function () {
         Route::get('trackers', [App\Http\Controllers\TrackerController::class, 'list']);
         Route::post('/store', [App\Http\Controllers\TrackerController::class, 'store']);
@@ -81,5 +113,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/trash/{id}', [App\Http\Controllers\TrackerController::class, 'trash']);
         Route::post('/force-delete/{id}', [App\Http\Controllers\TrackerController::class, 'forceDelete']);
         Route::post('/restore/{id}', [App\Http\Controllers\TrackerController::class, 'restore']);
+        Route::get('/select-tracker', [App\Http\Controllers\TrackerController::class, 'selectTrackers']);
     });
+
 });

@@ -34,6 +34,18 @@ class TrackerController extends Controller
 
     }
 
+    public function selectTrackers(Request $request) {
+
+        $search = $request->search && $request->search != '' && $request->search !== 'null' ? $request->search: null ;
+
+        $params = [
+            'search' => $search
+        ];
+
+        return $this->trackerService->selectTrackers(json_decode(json_encode($params)));
+
+    }
+
     public function store(StoreRequest $request) {
 
         return $this->trackerService->store($request);
