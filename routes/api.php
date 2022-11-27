@@ -27,8 +27,12 @@ Route::middleware('auth:sanctum')->group(function () {
     // vehicle apis
 
     Route::prefix('vehicle')->group(function () {
+        Route::get('/list', [App\Http\Controllers\VehicleController::class, 'list']);
         Route::post('/create', [App\Http\Controllers\VehicleController::class, 'create']);
         Route::get('/show/{id}', [App\Http\Controllers\VehicleController::class, 'show']);
+        Route::post('/image/upload', [App\Http\Controllers\VehicleController::class, 'upload']);
+        Route::post('/image/undo', [App\Http\Controllers\VehicleController::class, 'undo']);
+        Route::post('/update/{id}', [App\Http\Controllers\VehicleController::class, 'update']);
     });
 
     // Settings apis
@@ -94,6 +98,17 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/select-color', [App\Http\Controllers\ColorController::class, 'selectColor']);
         });
 
+    Route::prefix('vehicle-brand')
+        ->group(function () {
+            Route::get('/brands', [App\Http\Controllers\VehicleBrandController::class, 'list']);
+            Route::post('/store', [App\Http\Controllers\VehicleBrandController::class, 'store']);
+            Route::post('/update/{id}', [App\Http\Controllers\VehicleBrandController::class, 'update']);
+            Route::post('/trash/{id}', [App\Http\Controllers\VehicleBrandController::class, 'trash']);
+            Route::post('/force-delete/{id}', [App\Http\Controllers\VehicleBrandController::class, 'forceDelete']);
+            Route::post('/restore/{id}', [App\Http\Controllers\VehicleBrandController::class, 'restore']);
+            Route::get('/select-vehicle-brand', [App\Http\Controllers\VehicleBrandController::class, 'selectVehicleBrand']);
+        });
+
     Route::prefix('fuel-type')
         ->group(function () {
             Route::get('/fuel-types', [App\Http\Controllers\FuelTypeController::class, 'list']);
@@ -102,7 +117,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/trash/{id}', [App\Http\Controllers\FuelTypeController::class, 'trash']);
             Route::post('/force-delete/{id}', [App\Http\Controllers\FuelTypeController::class, 'forceDelete']);
             Route::post('/restore/{id}', [App\Http\Controllers\FuelTypeController::class, 'restore']);
-            Route::get('/select-fuel-typ', [App\Http\Controllers\FuelTypeController::class, 'selectFuelType']);
+            Route::get('/select-fuel-type', [App\Http\Controllers\FuelTypeController::class, 'selectFuelType']);
         });
 
     Route::prefix('tracker')->group(function () {

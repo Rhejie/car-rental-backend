@@ -20,6 +20,10 @@ return new class extends Migration
             $table->string('plate_number')->nullable();
             $table->integer('fuel_capacity')->nullable();
             $table->integer('fuel_consumption')->nullable();
+            $table->string('cr_no')->nullable();
+            $table->string('engine_no')->nullable();
+            $table->string('chassis_no')->nullable();
+            $table->date('cr_expiration_date')->nullable();
             $table->integer('odometer')->nullable();
             $table->boolean('status')->default(true);
             $table->boolean('publish')->default(false);

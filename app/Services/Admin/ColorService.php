@@ -79,9 +79,15 @@ class ColorService {
         }
     }
 
-    public function selectColor() {
+    public function selectColor($params) {
 
-        $model = Color::get();
+        $model = Color::query();
+
+        if($params->search) {
+            $model = $model->where('name', 'LIKE', "%$params->search%");
+        }
+
+        $model = $model->limit(50)->get();
 
         return response()->json($model);
     }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\FuelType;
+namespace App\Http\Requests\Vehicle;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class UploadRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
+            'file' => 'required|file',
+            'vehicle_id' => 'required'
         ];
     }
 }

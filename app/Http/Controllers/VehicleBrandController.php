@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Color\StoreRequest;
-use App\Services\Admin\ColorService;
+use App\Http\Requests\VehicleBrand\StoreRequest;
+use App\Services\Admin\VehicleBrandService;
 use Illuminate\Http\Request;
 
-class ColorController extends Controller
+class VehicleBrandController extends Controller
 {
-    private $colorService ;
+
+    private $vehicleBrandService ;
     public function __construct() {
-        $this->colorService = new ColorService();
+        $this->vehicleBrandService = new VehicleBrandService();
     }
 
     public function list(Request $request)
@@ -24,42 +25,42 @@ class ColorController extends Controller
             'page' => $page,
             'count' => $count
         ];
-        return $this->colorService->list(json_decode(json_encode($params)));
+        return $this->vehicleBrandService->list(json_decode(json_encode($params)));
     }
 
     public function store(StoreRequest $request) {
 
-        return $this->colorService->store($request);
+        return $this->vehicleBrandService->store($request);
 
     }
 
     public function update(StoreRequest $request, $id) {
 
-        return $this->colorService->update($request, $id);
+        return $this->vehicleBrandService->update($request, $id);
 
     }
 
     public function trash($id) {
 
-        return $this->colorService->trash($id);
+        return $this->vehicleBrandService->trash($id);
 
     }
 
     public function forceDelete($id){
-        return $this->colorService->forceDelete($id);
+        return $this->vehicleBrandService->forceDelete($id);
     }
 
     public function restore($id) {
 
-        return $this->colorService->restore($id);
+        return $this->vehicleBrandService->restore($id);
     }
 
-    public function selectColor(Request $request)
+    public function selectVehicleBrand(Request $request)
     {
         $search = $request->search && $request->search != '' && $request->search !== 'null' ? $request->search: null ;
         $params = [
             'search' => $search
         ];
-        return $this->colorService->selectColor(json_decode(json_encode($params)));
+        return $this->vehicleBrandService->selectVehicleBrand(json_decode(json_encode($params)));
     }
 }

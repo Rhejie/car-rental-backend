@@ -54,8 +54,12 @@ class FuelTypeController extends Controller
         return $this->fuelTypeService->restore($id);
     }
 
-    public function selectFuelType()
+    public function selectFuelType(Request $request)
     {
-        return $this->fuelTypeService->selectFuelType();
+        $search = $request->search && $request->search != '' && $request->search !== 'null' ? $request->search: null ;
+        $params = [
+            'search' => $search
+        ];
+        return $this->fuelTypeService->selectFuelType(json_decode(json_encode($params)));
     }
 }

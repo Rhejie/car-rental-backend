@@ -22,6 +22,12 @@ class Vehicle extends Model
         'odometer',
         'status',
         'publish',
+        'cr_no',
+        'vehicle_brand_id',
+        'fuel_type_id',
+        'engine_no',
+        'chassis_no',
+        'cr_expiration_date',
     ];
 
     public function tracker() {
@@ -32,5 +38,17 @@ class Vehicle extends Model
 
     public function color() {
         return $this->belongsTo(Color::class);
+    }
+
+    public function fuelType() {
+        return $this->belongsTo(FuelType::class);
+    }
+
+    public function vehicleImages() {
+        return $this->hasMany(VehicleImage::class);
+    }
+
+    public function vehicleBrand() {
+        return $this->belongsTo(VehicleBrand::class);
     }
 }

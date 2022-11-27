@@ -2,13 +2,13 @@
 
 namespace App\Services\Admin;
 
-use App\Models\FuelType;
+use App\Models\VehicleBrand;
 
-class FuelTypeService {
+class VehicleBrandService {
 
     public function list($params) {
 
-        $roles = FuelType::query();
+        $roles = VehicleBrand::query();
 
         if($params->search) {
 
@@ -30,7 +30,7 @@ class FuelTypeService {
     public function store($request)
     {
 
-        $model = new FuelType();
+        $model = new VehicleBrand();
         $model->name = $request->name;
         $model->save();
         return $model;
@@ -41,7 +41,7 @@ class FuelTypeService {
     public function update($request, $id)
     {
 
-        $model = FuelType::find($id);
+        $model = VehicleBrand::find($id);
         $model->name = $request->name;
         $model->save();
         return $model;
@@ -50,7 +50,7 @@ class FuelTypeService {
 
     public function restore($id) {
 
-        $model = FuelType::onlyTrashed()->find($id);
+        $model = VehicleBrand::onlyTrashed()->find($id);
         if($model) {
             $model->restore();
 
@@ -60,28 +60,28 @@ class FuelTypeService {
     }
 
     public function trash($id) {
-        $model = FuelType::find($id);
+        $model = VehicleBrand::find($id);
         $model->delete();
 
         return ['message' => 'Successfully deleted'];
     }
 
     public function forceDelete($id) {
-        $model = FuelType::find($id);
+        $model = VehicleBrand::find($id);
         if($model) {
             $model->forceDelete();
             return ['message' => 'Permanently deleted'];
         }
-        $model = FuelType::onlyTrashed()->find($id);
+        $model = VehicleBrand::onlyTrashed()->find($id);
         if($model) {
             $model->forceDelete();
             return ['message' => 'Permanently deleted'];
         }
     }
 
-    public function selectFuelType($params) {
+    public function selectVehicleBrand($params) {
 
-        $model = FuelType::query();
+        $model = VehicleBrand::query();
 
         if($params->search) {
             $model = $model->where('name', 'LIKE', "%$params->search%");

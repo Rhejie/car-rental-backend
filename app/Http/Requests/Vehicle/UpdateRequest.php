@@ -4,7 +4,7 @@ namespace App\Http\Requests\Vehicle;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,6 +28,15 @@ class CreateRequest extends FormRequest
             'tracker' => 'required',
             'color' => 'required',
             'vehicle_brand' => 'required',
+            'fuel_capacity' => 'required',
+            'fuel_consumption' => 'required',
+            'odometer' => 'required',
+            'plate_number' => 'required',
+            'cr_no' => 'required',
+            'engine_no' => 'required',
+            'chassis_no' => 'required',
+            'cr_expiration_date' => 'required|date',
+            'capacity' => 'required'
         ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\FuelType;
+namespace App\Http\Requests\VehicleBrand;
 
 use Illuminate\Foundation\Http\FormRequest;
 
