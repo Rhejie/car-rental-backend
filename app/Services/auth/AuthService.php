@@ -3,6 +3,7 @@
 namespace App\Services\Auth;
 
 use App\Models\User;
+use App\Services\Admin\RoleServices;
 use Illuminate\Support\Facades\Auth;
 
 class AuthService {
@@ -36,5 +37,18 @@ class AuthService {
 
     public function getUserProfile () {
         return response()->json(auth('sanctum')->user());
+    }
+
+    public function register($request)
+    {
+        $user = new User();
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->role_id = ((new RoleServices())->getUserRole())->id;
+        $user->save();
+
+        return response()->json($user);
     }
 }

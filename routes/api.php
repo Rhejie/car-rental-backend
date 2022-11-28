@@ -20,11 +20,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::post('/user/login', [App\Http\Controllers\AuthController::class, 'login']);
+Route::post('/user/register', [App\Http\Controllers\AuthController::class, 'register']);
 
 
 
 Route::middleware('auth:sanctum')->group(function () {
     // vehicle apis
+
+    Route::post('user/logout', [App\Http\Controllers\AuthController::class, 'logout']);
 
     Route::prefix('vehicle')->group(function () {
         Route::get('/list', [App\Http\Controllers\VehicleController::class, 'list']);

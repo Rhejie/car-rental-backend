@@ -47,8 +47,22 @@ class RoleServices {
         }
     }
 
+    public function getCurrentUserRole() {
+
+        $user = auth()->user();
+
+        $role = Role::find($user->role_id);
+
+        return $role;
+    }
+
     public function getAdminRole() {
         $role = Role::where('name', 'admin')->first();
+        return $role;
+    }
+
+    public function getUserRole() {
+        $role = Role::where('name', 'user')->first();
         return $role;
     }
 }

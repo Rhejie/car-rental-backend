@@ -7,6 +7,34 @@ use App\Models\VehicleImage;
 
 class VehicleService {
 
+    private $roleService;
+    public function __construct() {
+        $this->roleService = new RoleServices();
+    }
+    public function list($params) {
+
+        $roles = Vehicle::with(['tracker.company', 'color', 'fuelType', 'vehicleImages', 'vehicleBrand']);
+
+        if($params->search) {
+
+            $roles = $roles->where(function($query) use ($params) {
+                $query->orWhere('model', 'LIKE', "%$params->search%");
+            })->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
+
+            return $roles;
+
+        }
+
+        if(($this->roleService->getCurrentUserRole())->name == 'user') {
+
+            $roles = $roles->where('publish', 1);
+
+        }
+
+        $roles = $roles->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
+
+        return response()->json($roles, 200);
+    }
     public function create($request) {
         $model = new Vehicle();
         $model->model = $request->model;
