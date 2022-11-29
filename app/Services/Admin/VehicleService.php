@@ -101,7 +101,7 @@ class VehicleService {
     }
 
     public function getVehicleById($id) {
-        $model = Vehicle::with(['tracker.company', 'color', 'fuelType', 'vehicleImages', 'vehicleBrand'])->find($id);
+        $model = Vehicle::with(['tracker.company', 'color', 'fuelType', 'vehicleImages', 'vehicleBrand', 'vehiclePlace.place'])->find($id);
         return $model;
     }
 

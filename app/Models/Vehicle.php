@@ -53,6 +53,6 @@ class Vehicle extends Model
     }
 
     public function vehiclePlace() {
-        return $this->belongsTo(VehiclePlaces::class, 'id',  'vehicle_id');
+        return $this->hasMany(VehiclePlaces::class, 'vehicle_id',  'id');
     }
 }
