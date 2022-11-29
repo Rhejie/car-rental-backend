@@ -13,7 +13,7 @@ class VehicleService {
     }
     public function list($params) {
 
-        $vehicles = Vehicle::with(['tracker.company', 'color', 'fuelType', 'vehicleImages', 'vehicleBrand']);
+        $vehicles = Vehicle::with(['tracker.company', 'color', 'fuelType', 'vehicleImages', 'vehicleBrand', 'vehiclePlace']);
 
         if (isset($params->brands) && $params->brands && $params->brands[0] != 'null' && $params->brands[0] != '' ) {
             $vehicles = $vehicles->whereHas('vehicleBrand', function ($query) use ($params) {
@@ -32,6 +32,12 @@ class VehicleService {
         if (isset($params->fuelTypes) && $params->fuelTypes && $params->fuelTypes[0] != 'null' && $params->fuelTypes[0] != '' ) {
             $vehicles = $vehicles->whereHas('fuelType', function ($query) use ($params) {
                 $query->whereIn('id', $params->fuelTypes);
+            });
+        }
+
+        if (isset($params->place_id) && $params->place_id && $params->place_id != null  && $params->place_id != 'null' ) {
+            $vehicles = $vehicles->whereHas('vehiclePlace', function ($query) use ($params) {
+                $query->where('place_id', $params->place_id);
             });
         }
 

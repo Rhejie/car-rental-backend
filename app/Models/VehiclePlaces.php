@@ -13,4 +13,8 @@ class VehiclePlaces extends Model
     public function place() {
         return $this->belongsTo(Places::class, 'place_id');
     }
+
+    public function vehicle() {
+        return $this->belongsTo(Vehicles::class);
+    }
 }

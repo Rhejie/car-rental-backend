@@ -26,6 +26,7 @@ class VehicleController extends Controller
         $colors = $request->colors ? $request->colors : '';
         $brands = $request->brands ? $request->brands : '';
         $fuelTypes = $request->fuelTypes ? $request->fuelTypes : '';
+        $place_id= $request->place ? $request->place : null;
 
         $params = [
             'search' => $search,
@@ -34,6 +35,7 @@ class VehicleController extends Controller
             'colors' => explode(',', $colors),
             'brands' => explode(',', $brands),
             'fuelTypes' => explode(',', $fuelTypes),
+            'place_id' => $place_id
         ];
 
         return $this->vehicleService->list(json_decode(json_encode($params)));

@@ -14,7 +14,7 @@ class VehiclePlacesController extends Controller
         $this->vehiclePlaceService = new VehiclePlaceService();
     }
 
-    public function list(Request $request)
+    public function list(Request $request, $vehicle_id)
     {
         $search = $request->search && $request->search != '' && $request->search !== 'null' ? $request->search: null ;
         $page = $request->page ? $request->page : 1;
@@ -25,7 +25,8 @@ class VehiclePlacesController extends Controller
             'page' => $page,
             'count' => $count
         ];
-        return $this->vehiclePlaceService->list(json_decode(json_encode($params)));
+
+        return $this->vehiclePlaceService->list(json_decode(json_encode($params)), $vehicle_id);
     }
 
     public function show($id) {

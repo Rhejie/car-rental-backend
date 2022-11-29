@@ -7,9 +7,13 @@ use App\Models\VehiclePlaces;
 class VehiclePlaceService
 {
 
-    public function list($params)
+    public function list($params, $vehicle_id)
     {
         $places = VehiclePlaces::with(['place']);
+
+        if(isset($vehicle_id) && $vehicle_id) {
+            $places = $places->where('vehicle_id', $vehicle_id);
+        }
 
         if ($params->search) {
 
@@ -41,8 +45,9 @@ class VehiclePlaceService
 
         $model = new VehiclePlaces();
         $model->from = $request->from;
-        $model->place_id = $request->place_id;
+        $model->place_id = $request->place['id'];
         $model->price = $request->price;
+        $model->vehicle_id = $request->vehicle_id;
         $model->save();
 
         return response()->json($this->getVehiclePlaceById($model->id), 200);
@@ -52,9 +57,10 @@ class VehiclePlaceService
     {
 
         $model = VehiclePlaces::find($id);
-        $model->name = $request->name;
-        $model->place_id = $request->place_id;
+        $model->from = $request->from;
+        $model->place_id = $request->place['id'];
         $model->price = $request->price;
+        $model->vehicle_id = $request->vehicle_id;
         $model->save();
 
         return response()->json($this->getVehiclePlaceById($model->id), 200);

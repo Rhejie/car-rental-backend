@@ -44,8 +44,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('vehicle-place')->group(function () {
-        Route::get('/list', [App\Http\Controllers\VehiclePlacesController::class, 'list']);
-        Route::post('/create', [App\Http\Controllers\VehiclePlacesController::class, 'create']);
+        Route::get('/list/{vehicle_id}', [App\Http\Controllers\VehiclePlacesController::class, 'list']);
+        Route::post('/create', [App\Http\Controllers\VehiclePlacesController::class, 'store']);
         Route::get('/show/{id}', [App\Http\Controllers\VehiclePlacesController::class, 'show']);
         Route::post('/update/{id}', [App\Http\Controllers\VehiclePlacesController::class, 'update']);
         Route::get('/select-vehicle-place', [App\Http\Controllers\VehiclePlacesController::class, 'selectVehiclePlaces']);
