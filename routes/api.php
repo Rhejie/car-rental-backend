@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\SendingEmailVerificationJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::post('/send', function () {
+    SendingEmailVerificationJob::dispatch('aranezrhejie97@gmail.com');
 });
 
 
@@ -36,6 +41,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/image/upload', [App\Http\Controllers\VehicleController::class, 'upload']);
         Route::post('/image/undo', [App\Http\Controllers\VehicleController::class, 'undo']);
         Route::post('/update/{id}', [App\Http\Controllers\VehicleController::class, 'update']);
+    });
+
+    Route::prefix('vehicle-place')->group(function () {
+        Route::get('/list', [App\Http\Controllers\VehiclePlacesController::class, 'list']);
+        Route::post('/create', [App\Http\Controllers\VehiclePlacesController::class, 'create']);
+        Route::get('/show/{id}', [App\Http\Controllers\VehiclePlacesController::class, 'show']);
+        Route::post('/update/{id}', [App\Http\Controllers\VehiclePlacesController::class, 'update']);
+        Route::get('/select-vehicle-place', [App\Http\Controllers\VehiclePlacesController::class, 'selectVehiclePlaces']);
     });
 
     // Settings apis
@@ -99,6 +112,17 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/force-delete/{id}', [App\Http\Controllers\ColorController::class, 'forceDelete']);
             Route::post('/restore/{id}', [App\Http\Controllers\ColorController::class, 'restore']);
             Route::get('/select-color', [App\Http\Controllers\ColorController::class, 'selectColor']);
+        });
+
+    Route::prefix('place')
+        ->group(function () {
+            Route::get('/places', [App\Http\Controllers\PlacesController::class, 'list']);
+            Route::post('/store', [App\Http\Controllers\PlacesController::class, 'store']);
+            Route::post('/update/{id}', [App\Http\Controllers\PlacesController::class, 'update']);
+            Route::post('/trash/{id}', [App\Http\Controllers\PlacesController::class, 'trash']);
+            Route::post('/force-delete/{id}', [App\Http\Controllers\PlacesController::class, 'forceDelete']);
+            Route::post('/restore/{id}', [App\Http\Controllers\PlacesController::class, 'restore']);
+            Route::get('/select-place', [App\Http\Controllers\PlacesController::class, 'selectPlaces']);
         });
 
     Route::prefix('vehicle-brand')

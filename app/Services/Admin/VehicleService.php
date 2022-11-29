@@ -13,27 +13,50 @@ class VehicleService {
     }
     public function list($params) {
 
-        $roles = Vehicle::with(['tracker.company', 'color', 'fuelType', 'vehicleImages', 'vehicleBrand']);
+        $vehicles = Vehicle::with(['tracker.company', 'color', 'fuelType', 'vehicleImages', 'vehicleBrand']);
+
+        if (isset($params->brands) && $params->brands && $params->brands[0] != 'null' && $params->brands[0] != '' ) {
+            $vehicles = $vehicles->whereHas('vehicleBrand', function ($query) use ($params) {
+                $query->whereIn('id', $params->brands);
+            });
+        }
+
+        if (isset($params->colors) && $params->colors && $params->colors[0] != 'null' && $params->colors[0] != '' ) {
+            $vehicles = $vehicles->whereHas('color', function ($query) use ($params) {
+                $query->whereIn('id', $params->colors);
+            });
+        }
+
+
+
+        if (isset($params->fuelTypes) && $params->fuelTypes && $params->fuelTypes[0] != 'null' && $params->fuelTypes[0] != '' ) {
+            $vehicles = $vehicles->whereHas('fuelType', function ($query) use ($params) {
+                $query->whereIn('id', $params->fuelTypes);
+            });
+        }
 
         if($params->search) {
 
-            $roles = $roles->where(function($query) use ($params) {
+            $vehicles = $vehicles->where(function($query) use ($params) {
                 $query->orWhere('model', 'LIKE', "%$params->search%");
+                $query->orWhereHas('vehicleBrand', function ($query) use ($params){
+                    $query->where('name', 'LIKE', "%$params->search%");
+                });
             })->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
 
-            return $roles;
+            return $vehicles;
 
         }
 
         if(($this->roleService->getCurrentUserRole())->name == 'user') {
 
-            $roles = $roles->where('publish', 1);
+            $vehicles = $vehicles->where('publish', 1);
 
         }
 
-        $roles = $roles->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
+        $vehicles = $vehicles->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
 
-        return response()->json($roles, 200);
+        return response()->json($vehicles, 200);
     }
     public function create($request) {
         $model = new Vehicle();

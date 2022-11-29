@@ -23,11 +23,17 @@ class VehicleController extends Controller
         $search = $request->search && $request->search != '' && $request->search !== 'null' ? $request->search: null ;
         $page = $request->page ? $request->page : 1;
         $count = $request->size ? $request->size : 10;
+        $colors = $request->colors ? $request->colors : '';
+        $brands = $request->brands ? $request->brands : '';
+        $fuelTypes = $request->fuelTypes ? $request->fuelTypes : '';
 
         $params = [
             'search' => $search,
             'page' => $page,
-            'count' => $count
+            'count' => $count,
+            'colors' => explode(',', $colors),
+            'brands' => explode(',', $brands),
+            'fuelTypes' => explode(',', $fuelTypes),
         ];
 
         return $this->vehicleService->list(json_decode(json_encode($params)));

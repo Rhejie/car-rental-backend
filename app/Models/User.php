@@ -52,4 +52,10 @@ class User extends Authenticatable
     public function role() {
         return $this->belongsTo(Role::class);
     }
+
+    public function userIdentifications() {
+
+        return $this->hasMany(UserIdentification::class);
+
+    }
 }
