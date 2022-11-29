@@ -48,9 +48,7 @@ class VehicleService {
                 $query->orWhereHas('vehicleBrand', function ($query) use ($params){
                     $query->where('name', 'LIKE', "%$params->search%");
                 });
-            })->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
-
-            return $vehicles;
+            });
 
         }
 

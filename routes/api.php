@@ -43,6 +43,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/update/{id}', [App\Http\Controllers\VehicleController::class, 'update']);
     });
 
+    Route::prefix('/booking')->group(function () {
+        Route::get('/list', [App\Http\Controllers\BookingController::class, 'list']);
+        Route::post('/store', [App\Http\Controllers\BookingController::class, 'store']);
+    });
+
     Route::prefix('vehicle-place')->group(function () {
         Route::get('/list/{vehicle_id}', [App\Http\Controllers\VehiclePlacesController::class, 'list']);
         Route::post('/create', [App\Http\Controllers\VehiclePlacesController::class, 'store']);

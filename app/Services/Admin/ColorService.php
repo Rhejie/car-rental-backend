@@ -14,9 +14,7 @@ class ColorService {
 
             $roles = $roles->where(function($query) use ($params) {
                 $query->orWhere('name', 'LIKE', "%$params->search%");
-            })->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
-
-            return $roles;
+            });
 
         }
 
