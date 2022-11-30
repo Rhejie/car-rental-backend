@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Vehicle;
 
+use App\Rules\CreateVehicleRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateRequest extends FormRequest
@@ -25,7 +26,7 @@ class CreateRequest extends FormRequest
     {
         return [
             'model' => 'required|string',
-            'tracker' => 'required',
+            'tracker' => ['required', new CreateVehicleRule],
             'color' => 'required',
             'vehicle_brand' => 'required',
             'fuel_type' => 'required'

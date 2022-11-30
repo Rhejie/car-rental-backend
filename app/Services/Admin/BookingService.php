@@ -3,46 +3,48 @@
 namespace App\Services\Admin;
 
 use App\Models\Booking;
+use Carbon\Carbon;
 
-class BookingService {
+class BookingService
+{
 
     private $roleService;
-    public function __construct() {
+    public function __construct()
+    {
         $this->roleService = new RoleServices();
     }
-    public function list($params) {
+    public function list($params)
+    {
 
         $bookings = Booking::with(['vehicle' => function ($query) use ($params) {
-            $query->with(['vehicleBrand', 'tracker']);
+            $query->with(['vehicleBrand', 'tracker', 'vehicleImages']);
         }, 'vehiclePlace.place', 'user']);
 
-        if($params->search) {
+        if ($params->search) {
 
-            $bookings = $bookings->where(function($query) use ($params) {
+            $bookings = $bookings->where(function ($query) use ($params) {
                 // $query->orWhere('name', 'LIKE', "%$params->search%");
-                $query->whereHas('vehicle', function($query) use ($params) {
+                $query->whereHas('vehicle', function ($query) use ($params) {
                     $query->where('model', 'LIKE', "%$params->search%");
                     $query->orWhereHas('vehicleBrand', function ($query) use ($params) {
-                        $query->where('name', 'LIKE' , "%$params->search%");
+                        $query->where('name', 'LIKE', "%$params->search%");
                     });
                 });
             });
-
         }
 
-        if(($this->roleService->getCurrentUserRole())->name == 'user') {
+        if (($this->roleService->getCurrentUserRole())->name == 'user') {
 
             $bookings = $bookings->where('user_id', auth()->user()->id);
-
         }
 
-        $bookings = $bookings->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
+        $bookings = $bookings->where('booking_start', '>', Carbon::now())->orderBy('booking_start', 'asc')->paginate($params->count, ['*'], 'page', $params->page);
 
         return response()->json($bookings, 200);
-
     }
 
-    public function store($request) {
+    public function store($request)
+    {
 
         $model = new Booking();
 
@@ -55,13 +57,27 @@ class BookingService {
         $model->save();
 
         return response()->json($this->getBookingById($model->id));
-
     }
 
-    public function getBookingById($id) {
+    public function getBookingById($id)
+    {
 
         $model = Booking::find($id);
 
         return $model;
+    }
+
+    public function getUserLatestBook()
+    {
+
+        $model = Booking::with(['vehicle' => function ($query) {
+            $query->with(['vehicleBrand', 'tracker', 'vehicleImages']);
+        }, 'vehiclePlace.place', 'user'])
+        ->where('user_id', auth()->user()->id)->where(function ($query) {
+            $query->where('booking_status', 'pending');
+            $query->orWhere('booking_status', 'accept');
+        })->where('booking_start', '>', Carbon::now())->orderBy('booking_start', 'asc')->first();
+
+        return response()->json($model);
     }
 }

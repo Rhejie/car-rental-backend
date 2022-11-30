@@ -33,4 +33,10 @@ class BookingController extends Controller
 
         return $this->bookingService->store($request);
     }
+
+    public function getCurrentBookUser() {
+
+        return $this->bookingService->getUserLatestBook();
+
+    }
 }

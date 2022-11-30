@@ -34,6 +34,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('user/logout', [App\Http\Controllers\AuthController::class, 'logout']);
 
+    Route::prefix('user')->group(function () {
+        Route::get('/list', [App\Http\Controllers\UsersController::class, 'list']);
+    });
+
     Route::prefix('vehicle')->group(function () {
         Route::get('/list', [App\Http\Controllers\VehicleController::class, 'list']);
         Route::post('/create', [App\Http\Controllers\VehicleController::class, 'create']);
@@ -45,7 +49,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('/booking')->group(function () {
         Route::get('/list', [App\Http\Controllers\BookingController::class, 'list']);
-        Route::post('/store', [App\Http\Controllers\BookingController::class, 'store']);
+        Route::post('/store', [App\Http\Controllers\BookingController::class, 'store'])->name('user-store-booking');
+        Route::get('/get-current-book', [App\Http\Controllers\BookingController::class, 'getCurrentBookUser']);
     });
 
     Route::prefix('vehicle-place')->group(function () {

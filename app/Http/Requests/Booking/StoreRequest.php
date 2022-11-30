@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Booking;
 
+use App\Rules\BookingDateRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
@@ -23,8 +24,9 @@ class StoreRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            'booking_start' => 'required|date|after:today',
+            'booking_start' => ['required', 'date', 'after:today', new BookingDateRule($this->vehicle_id, $this->booking_end)],
             'booking_end' => 'required|date|after:booking_start',
             'vehicle_id' => 'required',
             'vehicle_place_id' => 'required',
