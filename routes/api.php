@@ -49,6 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('/booking')->group(function () {
         Route::get('/list', [App\Http\Controllers\BookingController::class, 'list']);
+        Route::get('/history/{vehicle_id}', [App\Http\Controllers\BookingController::class, 'history']);
         Route::post('/store', [App\Http\Controllers\BookingController::class, 'store'])->name('user-store-booking');
         Route::get('/get-current-book', [App\Http\Controllers\BookingController::class, 'getCurrentBookUser']);
     });

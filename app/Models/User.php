@@ -49,6 +49,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'verified'
+    ];
+
+    public function getVerifiedAttribute()
+    {
+        if ($this->admin_verified_at && $this->email_verified_at) {
+            return 'Yes';
+        }
+
+        return 'No';
+    }
+
     public function role() {
         return $this->belongsTo(Role::class);
     }

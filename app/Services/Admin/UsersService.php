@@ -14,7 +14,7 @@ class UsersService {
     }
     public function list($params) {
 
-        $users = User::query();
+        $users = User::with(['userIdentifications']);
 
         if($params->search) {
 

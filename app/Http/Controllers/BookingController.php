@@ -29,6 +29,21 @@ class BookingController extends Controller
         return $this->bookingService->list(json_decode(json_encode($params)));
     }
 
+    public function history(Request $request, $vehicle_id) {
+
+        $search = $request->search && $request->search != '' && $request->search !== 'null' ? $request->search: null ;
+        $page = $request->page ? $request->page : 1;
+        $count = $request->size ? $request->size : 10;
+
+        $params = [
+            'search' => $search,
+            'page' => $page,
+            'count' => $count
+        ];
+
+        return $this->bookingService->list(json_decode(json_encode($params)), $vehicle_id);
+    }
+
     public function store(StoreRequest $request) {
 
         return $this->bookingService->store($request);

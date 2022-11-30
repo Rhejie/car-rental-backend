@@ -13,7 +13,7 @@ class BookingService
     {
         $this->roleService = new RoleServices();
     }
-    public function list($params)
+    public function list($params, $vehicle_id = null)
     {
 
         $bookings = Booking::with(['vehicle' => function ($query) use ($params) {
@@ -36,6 +36,12 @@ class BookingService
         if (($this->roleService->getCurrentUserRole())->name == 'user') {
 
             $bookings = $bookings->where('user_id', auth()->user()->id);
+        }
+
+        if(isset($vehicle_id) && $vehicle_id) {
+
+            $bookings = $bookings->where('vehicle_id', $vehicle_id);
+
         }
 
         $bookings = $bookings->where('booking_start', '>', Carbon::now())->orderBy('booking_start', 'asc')->paginate($params->count, ['*'], 'page', $params->page);
