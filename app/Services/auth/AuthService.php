@@ -4,6 +4,7 @@ namespace App\Services\Auth;
 
 use App\Models\User;
 use App\Services\Admin\RoleServices;
+use App\Services\Admin\UserIdentificationService;
 use Illuminate\Support\Facades\Auth;
 
 class AuthService {
@@ -45,9 +46,19 @@ class AuthService {
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->email = $request->email;
+        $user->gender = $request->gender;
+        $user->contact_number = $request->contact_number;
+        $user->address = $request->address;
         $user->password = bcrypt($request->password);
         $user->role_id = ((new RoleServices())->getUserRole())->id;
         $user->save();
+
+        $params = [
+            'image_url' => $request->user_identification,
+            'user_id' => $user->id
+        ];
+
+        (new UserIdentificationService())->store(json_decode(json_encode($params)));
 
         return response()->json($user);
     }

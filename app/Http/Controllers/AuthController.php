@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\User;
 use App\Services\Auth\AuthService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -36,5 +38,18 @@ class AuthController extends Controller
             'status_code' => 200,
         ], 200);
 
+    }
+
+    public function getUserProfile($id) {
+        return response()->json(User::with(['userIdentifications'])->find($id));
+    }
+
+    public function verifiedUser($id) {
+
+        $user = User::find($id);
+        $user->admin_verified_at = Carbon::now();
+        $user->save();
+
+        return response()->json($user);
     }
 }

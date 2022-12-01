@@ -27,15 +27,24 @@ Route::post('/send', function () {
 Route::post('/user/login', [App\Http\Controllers\AuthController::class, 'login']);
 Route::post('/user/register', [App\Http\Controllers\AuthController::class, 'register']);
 
+Route::post('/user/profile/upload', [App\Http\Controllers\UsersController::class, 'uploadProfile']);
+
+Route::get('/user/profile/restore', function (Request $request) {
+    return $request->get('url');
+});
 
 
 Route::middleware('auth:sanctum')->group(function () {
     // vehicle apis
 
+    Route::get('/user-profile/{id}', [App\Http\Controllers\AuthController::class, 'getUserProfile']);
+
     Route::post('user/logout', [App\Http\Controllers\AuthController::class, 'logout']);
+
 
     Route::prefix('user')->group(function () {
         Route::get('/list', [App\Http\Controllers\UsersController::class, 'list']);
+        Route::post('/verified/{id}', [App\Http\Controllers\AuthController::class, 'verifiedUser']);
     });
 
     Route::prefix('vehicle')->group(function () {

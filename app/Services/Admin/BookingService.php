@@ -2,6 +2,8 @@
 
 namespace App\Services\Admin;
 
+use App\Jobs\PaymentJob;
+use App\Jobs\SavePaymentTransactionJob;
 use App\Models\Booking;
 use Carbon\Carbon;
 
@@ -72,10 +74,15 @@ class BookingService
         return response()->json($this->getBookingById($model->id));
     }
 
-    public function deploy($id) {
+    public function deploy($id, $request) {
+
         $model = Booking::find($id);
         $model->deployed = true;
         $model->save();
+
+
+        (new PaymentService)->store($request, $model->id);
+
         return response()->json($this->getBookingById($model->id));
     }
 

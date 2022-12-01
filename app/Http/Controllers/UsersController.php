@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\ProfileRequest;
 use App\Services\Admin\UsersService;
 use Illuminate\Http\Request;
 
@@ -27,5 +28,10 @@ class UsersController extends Controller
         ];
 
         return $this->usersService->list(json_decode(json_encode($params)));
+    }
+
+    public function uploadProfile(ProfileRequest $request) {
+
+        return $this->usersService->uploadProfile($request);
     }
 }

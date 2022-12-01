@@ -36,4 +36,19 @@ class UsersService {
 
         return response()->json($users, 200);
     }
+
+    public function uploadProfile($request) {
+
+        if ($request->hasFile('file')) {
+
+            $folder = "/user/profile";
+            $media = $request->file('file');
+            $name = time() . '.' . $media->extension();
+            $link = $media->storeAs($folder, $name, 'public');
+
+            return response()->json($link);
+        }
+
+        return response()->json(['message' => "No file found"]);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Booking\DeployRequest;
 use App\Http\Requests\Booking\StoreRequest;
 use App\Services\Admin\BookingService;
 use Illuminate\Http\Request;
@@ -55,8 +56,8 @@ class BookingController extends Controller
 
     }
 
-    public function deploy($id) {
-        return $this->bookingService->deploy($id);
+    public function deploy($id, DeployRequest $request) {
+        return $this->bookingService->deploy($id, $request);
     }
 
     public function getCurrentBookUser() {

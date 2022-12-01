@@ -55,7 +55,7 @@ class User extends Authenticatable
 
     public function getVerifiedAttribute()
     {
-        if ($this->admin_verified_at && $this->email_verified_at) {
+        if ($this->admin_verified_at) {
             return 'Yes';
         }
 

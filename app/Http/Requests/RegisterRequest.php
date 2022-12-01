@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\UserIdentificationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
@@ -28,6 +29,10 @@ class RegisterRequest extends FormRequest
             'last_name' => 'required|string',
             'email' => 'required|unique:users|email',
             'password' => 'required|confirmed',
+            'user_identification' => ['required'],
+            'gender' => 'required',
+            'contact_number' => 'required',
+            'address' => 'required',
         ];
     }
 }
