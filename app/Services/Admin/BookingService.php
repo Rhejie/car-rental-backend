@@ -65,6 +65,21 @@ class BookingService
         return response()->json($this->getBookingById($model->id));
     }
 
+    public function accept($request) {
+        $model = Booking::find($request->id);
+        $model->booking_status = 'accept';
+        $model->save();
+        return response()->json($this->getBookingById($model->id));
+    }
+
+    public function deploy($id) {
+        $model = Booking::find($id);
+        $model->deployed = true;
+        $model->save();
+        return response()->json($this->getBookingById($model->id));
+    }
+
+
     public function getBookingById($id)
     {
 

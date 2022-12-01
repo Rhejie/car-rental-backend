@@ -76,4 +76,17 @@ class PaymentModeService {
         }
 
     }
+
+    public function selectPaymentMethod($params) {
+
+        $model = PaymentMode::query();
+
+        if($params->search) {
+            $model = $model->where('name', 'LIKE', "%$params->search%");
+        }
+
+        $model = $model->limit(20)->get();
+
+        return response()->json($model);
+    }
 }

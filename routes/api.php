@@ -51,6 +51,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/list', [App\Http\Controllers\BookingController::class, 'list']);
         Route::get('/history/{vehicle_id}', [App\Http\Controllers\BookingController::class, 'history']);
         Route::post('/store', [App\Http\Controllers\BookingController::class, 'store'])->name('user-store-booking');
+        Route::post('/accept', [App\Http\Controllers\BookingController::class, 'accept']);
+        Route::post('/deploy/{id}', [App\Http\Controllers\BookingController::class, 'deploy']);
         Route::get('/get-current-book', [App\Http\Controllers\BookingController::class, 'getCurrentBookUser']);
     });
 
@@ -87,6 +89,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/trash/{id}', [App\Http\Controllers\PaymentModeController::class, 'trash']);
             Route::post('/force-delete/{id}', [App\Http\Controllers\PaymentModeController::class, 'forceDelete']);
             Route::post('/restore/{id}', [App\Http\Controllers\PaymentModeController::class, 'restore']);
+            Route::get('/select-payment-method', [App\Http\Controllers\PaymentModeController::class, 'selectPaymentMethod']);
         });
 
     Route::prefix('company')

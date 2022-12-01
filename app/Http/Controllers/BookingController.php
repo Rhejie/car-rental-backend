@@ -49,6 +49,16 @@ class BookingController extends Controller
         return $this->bookingService->store($request);
     }
 
+    public function accept(Request $request) {
+
+        return $this->bookingService->accept(json_decode(json_encode($request->all())));
+
+    }
+
+    public function deploy($id) {
+        return $this->bookingService->deploy($id);
+    }
+
     public function getCurrentBookUser() {
 
         return $this->bookingService->getUserLatestBook();

@@ -26,7 +26,7 @@ class CreateVehicleRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        return Tracker::find($value['id']) ? false : true;
+        return Tracker::find($value['id']) ? true : false;
     }
 
     /**

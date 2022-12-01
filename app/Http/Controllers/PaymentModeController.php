@@ -53,4 +53,14 @@ class PaymentModeController extends Controller
 
         return $this->paymentModeService->restore($id);
     }
+
+    public function selectPaymentMethod(Request $request) {
+        $search = $request->search ? $request->search : null;
+
+        $params = [
+            'search' => $search
+        ];
+
+        return $this->paymentModeService->selectPaymentMethod(json_decode(json_encode($params)));
+    }
 }
