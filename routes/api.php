@@ -25,6 +25,7 @@ Route::post('/send', [App\Http\Controllers\TrackerCoordinatesController::class, 
 
 Route::post('/user/login', [App\Http\Controllers\AuthController::class, 'login']);
 Route::post('/user/register', [App\Http\Controllers\AuthController::class, 'register']);
+Route::post('/remove/profile_url', [App\Http\Controllers\UsersController::class, 'removeImageInStorageInRegister']);
 
 Route::post('/user/profile/upload', [App\Http\Controllers\UsersController::class, 'uploadProfile']);
 

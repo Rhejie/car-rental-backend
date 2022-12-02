@@ -34,4 +34,8 @@ class UsersController extends Controller
 
         return $this->usersService->uploadProfile($request);
     }
+
+    public function removeImageInStorageInRegister(Request $request) {
+        dd($request->all());
+    }
 }
