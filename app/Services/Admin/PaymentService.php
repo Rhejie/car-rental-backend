@@ -26,4 +26,11 @@ class PaymentService {
         return  Payment::with(['paymentMode', 'booking'])->find($id);
 
     }
+
+    public function paymentHistoryByBooking($id) {
+
+        $history = Payment::with(['booking', 'paymentMode'])->where('booking_id', $id)->get();
+
+        return response()->json($history);
+    }
 }

@@ -60,6 +60,13 @@ class OverchargeTypesService {
         return $model;
     }
 
+    public function selectOvercharge() {
+
+        $model = OverchargeType::get();
+
+        return response()->json($model);
+    }
+
     public function forceDelete($id) {
 
         $model = OverchargeType::find($id);

@@ -19,9 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/send', function () {
-    SendingEmailVerificationJob::dispatch('aranezrhejie97@gmail.com');
-});
+Route::post('/send', [App\Http\Controllers\TrackerCoordinatesController::class, 'sendCoordinate']);
+
 
 
 Route::post('/user/login', [App\Http\Controllers\AuthController::class, 'login']);
@@ -47,6 +46,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/verified/{id}', [App\Http\Controllers\AuthController::class, 'verifiedUser']);
     });
 
+    Route::prefix('payment')->group(function () {
+        Route::get('/history/{booking_id}', [App\Http\Controllers\PaymentController::class, 'history']);
+    });
+
     Route::prefix('vehicle')->group(function () {
         Route::get('/list', [App\Http\Controllers\VehicleController::class, 'list']);
         Route::post('/create', [App\Http\Controllers\VehicleController::class, 'create']);
@@ -62,7 +65,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/store', [App\Http\Controllers\BookingController::class, 'store'])->name('user-store-booking');
         Route::post('/accept', [App\Http\Controllers\BookingController::class, 'accept']);
         Route::post('/deploy/{id}', [App\Http\Controllers\BookingController::class, 'deploy']);
+        Route::post('/returned/{id}', [App\Http\Controllers\BookingController::class, 'returned']);
         Route::get('/get-current-book', [App\Http\Controllers\BookingController::class, 'getCurrentBookUser']);
+        Route::get('/deployed-list', [App\Http\Controllers\BookingController::class, 'deployedList']);
     });
 
     Route::prefix('vehicle-place')->group(function () {
@@ -121,6 +126,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/trash/{id}', [App\Http\Controllers\OverchargeTypeController::class, 'trash']);
             Route::post('/force-delete/{id}', [App\Http\Controllers\OverchargeTypeController::class, 'forceDelete']);
             Route::post('/restore/{id}', [App\Http\Controllers\OverchargeTypeController::class, 'restore']);
+            Route::get('/select', [App\Http\Controllers\OverchargeTypeController::class, 'selectOvercharge']);
         });
 
 

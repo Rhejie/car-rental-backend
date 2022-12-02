@@ -22,6 +22,7 @@ class UserServices {
         $model->address = 'admin address';
         $model->contact_number = '09090909090';
         $model->email_verified_at = Carbon::now();
+        $model->admin_verified_at = Carbon::now();
         $model->password = bcrypt('admin123');
         $model->role_id = ($this->roleServices->getAdminRole())->id;
         $model->save();

@@ -36,13 +36,13 @@ class BookingDateRule implements Rule
 
         $valueDate = (Carbon::parse($value))->format('Y-m-d H:i:s');
 
-        $checkIfBooked = Booking::where('booking_start', '<=' , $valueDate)->where('booking_end', '>=', $valueDate)->where('vehicle_id', $this->vehicle_id)->count();
+        $checkIfBooked = Booking::where('booking_start', '<=' , $valueDate)->where('booking_end', '>=', $valueDate)->where('vehicle_id', $this->vehicle_id)->where('booking_status', 'accept')->count();
 
-        $checkIfBooked2 = Booking::where('booking_start', '>' , $valueDate)->where('booking_end', '>=', $bookEnd)->where('vehicle_id', $this->vehicle_id)->count();
+        $checkIfBooked2 = Booking::where('booking_start', '>' , $valueDate)->where('booking_end', '>=', $bookEnd)->where('vehicle_id', $this->vehicle_id)->where('booking_status', 'accept')->count();
 
-        $checkIfBooked3 = Booking::where('booking_start', '<=', $valueDate)->where('booking_end', '>=', $valueDate)->where('booking_end', '<=', $bookEnd)->where('vehicle_id', $this->vehicle_id)->count();
+        $checkIfBooked3 = Booking::where('booking_start', '<=', $valueDate)->where('booking_end', '>=', $valueDate)->where('booking_end', '<=', $bookEnd)->where('vehicle_id', $this->vehicle_id)->where('booking_status', 'accept')->count();
 
-        $checkIfBooked4 = Booking::where('booking_start', '>' , $valueDate)->where('booking_end', '<', $bookEnd)->where('vehicle_id', $this->vehicle_id)->count();
+        $checkIfBooked4 = Booking::where('booking_start', '>' , $valueDate)->where('booking_end', '<', $bookEnd)->where('vehicle_id', $this->vehicle_id)->where('booking_status', 'accept')->count();
 
         if($checkIfBooked > 0) {
             return false;
@@ -71,6 +71,6 @@ class BookingDateRule implements Rule
      */
     public function message()
     {
-        return 'Booking Start overlaps with existing schedule.';
+        return 'Date is already booked.';
     }
 }

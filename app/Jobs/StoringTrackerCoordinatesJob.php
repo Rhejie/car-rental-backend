@@ -2,28 +2,27 @@
 
 namespace App\Jobs;
 
-use App\Mail\EmailVerification;
+use App\Services\Admin\TrackerCoordinatesService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Mail;
 
-class SendingEmailVerificationJob implements ShouldQueue
+class StoringTrackerCoordinatesJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $params;
+    private $coordinates;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($params)
+    public function __construct($coordinates)
     {
-        $this->params = $params;
+        $this->coordinates = $coordinates;
     }
 
     /**
@@ -33,7 +32,6 @@ class SendingEmailVerificationJob implements ShouldQueue
      */
     public function handle()
     {
-        // dd($this->params);
-        Mail::to($this->params)->send(new EmailVerification());
+        (new TrackerCoordinatesService)->store($this->coordinates);
     }
 }

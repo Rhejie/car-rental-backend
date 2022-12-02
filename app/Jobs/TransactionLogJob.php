@@ -2,19 +2,17 @@
 
 namespace App\Jobs;
 
-use App\Mail\EmailVerification;
+use App\Services\Admin\TransactionLogService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Mail;
 
-class SendingEmailVerificationJob implements ShouldQueue
+class TransactionLogJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     private $params;
     /**
      * Create a new job instance.
@@ -33,7 +31,6 @@ class SendingEmailVerificationJob implements ShouldQueue
      */
     public function handle()
     {
-        // dd($this->params);
-        Mail::to($this->params)->send(new EmailVerification());
+        (new TransactionLogService())->store($this->params);
     }
 }

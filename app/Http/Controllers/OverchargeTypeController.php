@@ -54,4 +54,8 @@ class OverchargeTypeController extends Controller
 
         return $this->overchargeTypesService->restore($id);
     }
+
+    public function selectOvercharge() {
+        return $this->overchargeTypesService->selectOvercharge();
+    }
 }

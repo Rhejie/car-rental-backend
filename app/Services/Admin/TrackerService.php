@@ -107,4 +107,11 @@ class TrackerService
 
         return response()->json($model);
     }
+
+    public function getTrackerByName($name) {
+
+        $model = Tracker::where('name', $name)->first();
+
+        return $model;
+    }
 }

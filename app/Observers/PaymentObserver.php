@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Jobs\PaymentTransactionLogJob;
 use App\Models\Payment;
 
 class PaymentObserver
@@ -14,7 +15,7 @@ class PaymentObserver
      */
     public function created(Payment $payment)
     {
-        //
+        PaymentTransactionLogJob::dispatch($payment);
     }
 
     /**

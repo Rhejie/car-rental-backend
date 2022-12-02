@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\Booking;
 
-use App\Models\User;
 use Illuminate\Contracts\Validation\Rule;
 
-class EmailValidateRule implements Rule
+class PaymentMethodRuleInReturnedBooking implements Rule
 {
+    private $is_fully_paid;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($is_fully_paid = false)
     {
-        //
+        $this->is_fully_paid = $is_fully_paid;
     }
 
     /**
@@ -26,7 +26,12 @@ class EmailValidateRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        return User::where('email', $value)->whereNotNull('admin_verified_at')->count() == 1;
+        if($this->is_fully_paid || $value) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
@@ -36,6 +41,6 @@ class EmailValidateRule implements Rule
      */
     public function message()
     {
-        return 'Your account is not yet verified';
+        return 'The Payment Method field is required.';
     }
 }

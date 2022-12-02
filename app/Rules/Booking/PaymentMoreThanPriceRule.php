@@ -7,14 +7,16 @@ use Illuminate\Contracts\Validation\Rule;
 class PaymentMoreThanPriceRule implements Rule
 {
     protected $total_price;
+    protected $paid_price;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($total_price)
+    public function __construct($total_price, $paid_price = null, $is_fully_paid = false)
     {
         $this->total_price = $total_price;
+        $this->paid_price = $paid_price;
     }
 
     /**
@@ -26,6 +28,9 @@ class PaymentMoreThanPriceRule implements Rule
      */
     public function passes($attribute, $value)
     {
+        if($this->paid_price) {
+            $this->total_price = $this->total_price + $this->paid_price;
+        }
         if($value > $this->total_price) {
             return false;
         }

@@ -135,4 +135,11 @@ class VehicleService {
 
         return $file->undo($request);
     }
+
+    public function getVehicleByTrackerId($id) {
+
+        $model = Vehicle::select(['id', 'tracker_id'])->where('tracker_id', $id)->first();
+
+        return $model;
+    }
 }
