@@ -79,6 +79,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/select-vehicle-place', [App\Http\Controllers\VehiclePlacesController::class, 'selectVehiclePlaces']);
     });
 
+    Route::prefix('maintenance')->group(function () {
+        Route::get('/list/{vehicle_id}', [App\Http\Controllers\VehicleMaintenanceController::class, 'list']);
+        Route::post('/store', [App\Http\Controllers\VehicleMaintenanceController::class, 'store']);
+        Route::post('/update', [App\Http\Controllers\VehicleMaintenanceController::class, 'update']);
+        Route::post('/trash/{id}', [App\Http\Controllers\VehicleMaintenanceController::class, 'trash']);
+        Route::post('/restore/{id}', [App\Http\Controllers\VehicleMaintenanceController::class, 'restore']);
+        Route::post('/force-delete/{id}', [App\Http\Controllers\VehicleMaintenanceController::class, 'forceDelete']);
+    });
+
     // Settings apis
     Route::prefix('role')
         ->group(function () {
