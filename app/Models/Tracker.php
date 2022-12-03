@@ -27,12 +27,22 @@ class Tracker extends Model
 
     public function vehicle() {
 
-        return $this->belongsTo(Vehicle::class);
+        return $this->belongsTo(Vehicle::class, 'tracker_id');
 
     }
 
     protected function getStatusAttribute()
     {
         return $this->vehicle() ? 'used' : 'unused';
+    }
+
+    public function trackerCoordinates() {
+
+        return $this->hasMany(TrackerCoordinates::class);
+
+    }
+
+    public function booking() {
+        return $this->hasMany(Booking::class);
     }
 }

@@ -7,6 +7,28 @@ use App\Models\VehicleMaintenance;
 
 class VehicleMaintenanceService {
 
+    public function all($params){
+        $maintenance = VehicleMaintenance::with(['vehicle.vehicleBrand']);
+
+        if ($params->search) {
+
+            $maintenance = $maintenance->where(function ($query) use ($params) {
+                $query->orWhere('type_of_maintenance', 'LIKE', "%$params->search%");
+                $query->orWhere('date', 'LIKE', "%$params->search%");
+                $query->orWhereHas('vehicle', function ($query) use ($params) {
+                    $query->where('model', 'LIKE', "%$params->search%");
+                    $query->orWhereHas('vehicleBrand', function($query) use ($params) {
+                        $query->where('name', 'LIKE', "%$params->search%");
+                    });
+                });
+            });
+        }
+
+        $maintenance = $maintenance->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
+
+        return response()->json($maintenance, 200);
+    }
+
     public function list($params, $vehicle_id = null)
     {
         $maintenance = VehicleMaintenance::with(['vehicle.vehicleBrand']);
@@ -26,9 +48,7 @@ class VehicleMaintenanceService {
                         $query->where('name', 'LIKE', "%$params->search%");
                     });
                 });
-            })->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
-
-            return $maintenance;
+            });
         }
 
         $maintenance = $maintenance->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
@@ -39,7 +59,7 @@ class VehicleMaintenanceService {
 
         $model = new VehicleMaintenance();
         $model->price = $request->price;
-        $model->vehicle_id = $request->vehicle_id;
+        $model->vehicle_id = $request->vehicle['id'];
         $model->type_of_maintenance = $request->type_of_maintenance;
         $model->date = $request->Date;
         $model->estimated_return = $request->estimated_return;
@@ -59,7 +79,7 @@ class VehicleMaintenanceService {
 
     public function getMaintenanceById($id) {
 
-        $model = VehicleMaintenance::with(['vehicle'])->find($id);
+        $model = VehicleMaintenance::with(['vehicle.vehicleBrand'])->find($id);
         return $model;
     }
 

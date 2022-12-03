@@ -51,6 +51,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/history/{booking_id}', [App\Http\Controllers\PaymentController::class, 'history']);
     });
 
+    Route::prefix('trackers')->group(function () {
+        Route::get('/deployed-trackers', [App\Http\Controllers\TrackerCoordinatesController::class, 'getDeployedTrackers']);
+    });
+
     Route::prefix('vehicle')->group(function () {
         Route::get('/list', [App\Http\Controllers\VehicleController::class, 'list']);
         Route::post('/create', [App\Http\Controllers\VehicleController::class, 'create']);
@@ -81,6 +85,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('maintenance')->group(function () {
+        Route::get('/all', [App\Http\Controllers\VehicleMaintenanceController::class, 'all']);
         Route::get('/list/{vehicle_id}', [App\Http\Controllers\VehicleMaintenanceController::class, 'list']);
         Route::post('/store', [App\Http\Controllers\VehicleMaintenanceController::class, 'store']);
         Route::post('/update', [App\Http\Controllers\VehicleMaintenanceController::class, 'update']);

@@ -24,7 +24,7 @@ class StoreMaintenanceRequest extends FormRequest
     public function rules()
     {
         return [
-            'vehicle_id' => ['required'],
+            'vehicle' => ['required'],
             'Date' => ['required', 'date'],
             // 'estimated_return' => ['required'],
             'price' => ['required'],
