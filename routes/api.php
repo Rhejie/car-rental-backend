@@ -58,6 +58,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/image/upload', [App\Http\Controllers\VehicleController::class, 'upload']);
         Route::post('/image/undo', [App\Http\Controllers\VehicleController::class, 'undo']);
         Route::post('/update/{id}', [App\Http\Controllers\VehicleController::class, 'update']);
+        Route::get('/select-vehicle', [App\Http\Controllers\VehicleController::class, 'selectVehicle']);
     });
 
     Route::prefix('/booking')->group(function () {

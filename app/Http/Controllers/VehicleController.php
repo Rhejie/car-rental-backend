@@ -65,4 +65,16 @@ class VehicleController extends Controller
 
         return $this->vehicleService->undo(json_decode(json_encode($request->all())));
     }
+
+    public function selectVehicle(Request $request) {
+
+        $search = $request->search ? $request->search: null ;
+
+        $params = [
+            'search' => $search
+        ];
+
+        return $this->vehicleService->selectVehicle(json_decode(json_encode($params)));
+
+    }
 }

@@ -142,4 +142,22 @@ class VehicleService {
 
         return $model;
     }
+
+    public function selectVehicle($params) {
+
+        $model = Vehicle::with(['tracker.company']);
+
+        if($params->search) {
+            $model = $model->where(function ($query) use ($params) {
+                $query->where('model', 'LIKE', "%$params->search%");
+                $query->orWhereHas('tracker', function ($query) use ($params) {
+                    $query->where('name', 'LIKE', "%$params->search%");
+                });
+            });
+        }
+
+        $model = $model->limit(40)->get();
+
+        return response()->json($model);
+    }
 }
