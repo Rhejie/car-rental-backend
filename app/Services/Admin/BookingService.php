@@ -44,7 +44,7 @@ class BookingService
         }
 
 
-        if($role->name == 'admin') {
+        if($role->name == 'admin' && !isset($vehicle_id) && !$vehicle_id) {
 
             $bookings = $bookings->where('deployed', false);
 
@@ -134,6 +134,22 @@ class BookingService
             'transactionable_id' => $model->id,
             'type' => 'booking',
             'process' => 'decline'
+        ];
+
+        TransactionLogJob::dispatch($params);
+        return response()->json($this->getBookingById($model->id));
+    }
+
+    public function cancel($request) {
+        $model = Booking::find($request->id);
+        $model->booking_status = 'cancel';
+        $model->save();
+
+        $params = [
+            'transactionable_type' => 'App\Models\Booking',
+            'transactionable_id' => $model->id,
+            'type' => 'booking',
+            'process' => 'cancel'
         ];
 
         TransactionLogJob::dispatch($params);

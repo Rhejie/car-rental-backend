@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 Route::post('/send', [App\Http\Controllers\TrackerCoordinatesController::class, 'sendCoordinate']);
 
 
@@ -89,6 +90,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/store', [App\Http\Controllers\BookingController::class, 'store'])->name('user-store-booking');
         Route::post('/accept', [App\Http\Controllers\BookingController::class, 'accept']);
         Route::post('/decline', [App\Http\Controllers\BookingController::class, 'decline']);
+        Route::post('/cancel', [App\Http\Controllers\BookingController::class, 'cancel']);
         Route::post('/deploy/{id}', [App\Http\Controllers\BookingController::class, 'deploy']);
         Route::post('/returned/{id}', [App\Http\Controllers\BookingController::class, 'returned']);
         Route::get('/get-current-book', [App\Http\Controllers\BookingController::class, 'getCurrentBookUser']);

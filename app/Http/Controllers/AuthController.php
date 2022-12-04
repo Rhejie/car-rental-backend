@@ -46,7 +46,7 @@ class AuthController extends Controller
 
     public function verifiedUser($id) {
 
-        $user = User::find($id);
+        $user = User::with(['userIdentifications'])->find($id);
         $user->admin_verified_at = Carbon::now();
         $user->save();
 

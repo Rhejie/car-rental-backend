@@ -76,6 +76,11 @@ class BookingController extends Controller
         return $this->bookingService->decline(json_decode(json_encode($request->all())));
     }
 
+    public function cancel(Request $request) {
+
+        return $this->bookingService->cancel(json_decode(json_encode($request->all())));
+    }
+
     public function deploy($id, DeployRequest $request) {
         return $this->bookingService->deploy($id, $request);
     }
