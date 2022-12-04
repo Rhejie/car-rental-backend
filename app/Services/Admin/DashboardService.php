@@ -10,14 +10,14 @@ class DashboardService {
 
     public function countUsers() {
 
-        $model = User::where('role_id', '!=', 2)->count();
+        $model = User::where('role_id', 2)->count();
 
         return response()->json($model);
 
     }
 
     public function countVerifiedAccount() {
-        $model = User::whereNotNull('admin_verified_at')->count();
+        $model = User::whereNotNull('admin_verified_at')->where('role_id', 2)->count();
 
         return response()->json($model);
     }
