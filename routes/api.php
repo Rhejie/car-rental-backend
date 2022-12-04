@@ -169,6 +169,17 @@ Route::middleware('auth:sanctum')->group(function () {
 
     });
 
+    Route::prefix('form')
+        ->group(function () {
+            Route::get('/forms', [App\Http\Controllers\FormController::class, 'list']);
+            Route::post('/store', [App\Http\Controllers\FormController::class, 'store']);
+            Route::post('/update/{id}', [App\Http\Controllers\FormController::class, 'update']);
+            Route::post('/trash/{id}', [App\Http\Controllers\FormController::class, 'trash']);
+            Route::post('/force-delete/{id}', [App\Http\Controllers\FormController::class, 'forceDelete']);
+            Route::post('/restore/{id}', [App\Http\Controllers\FormController::class, 'restore']);
+            Route::get('/select-form', [App\Http\Controllers\FormController::class, 'selectForm']);
+        });
+
     Route::prefix('color')
         ->group(function () {
             Route::get('/colors', [App\Http\Controllers\ColorController::class, 'list']);

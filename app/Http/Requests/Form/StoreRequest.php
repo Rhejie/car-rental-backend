@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Tracker;
+namespace App\Http\Requests\Form;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,6 +25,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
+            'file_url' => 'required'
         ];
     }
 }

@@ -13,7 +13,7 @@ class VehicleService {
     }
     public function list($params) {
 
-        $vehicles = Vehicle::with(['tracker.company', 'color', 'fuelType', 'vehicleImages', 'vehicleBrand', 'vehiclePlace.place']);
+        $vehicles = Vehicle::with(['tracker', 'color', 'fuelType', 'vehicleImages', 'vehicleBrand', 'vehiclePlace.place']);
 
         if (isset($params->brands) && $params->brands && $params->brands[0] != 'null' && $params->brands[0] != '' ) {
             $vehicles = $vehicles->whereHas('vehicleBrand', function ($query) use ($params) {
@@ -99,7 +99,7 @@ class VehicleService {
     }
 
     public function getVehicleById($id) {
-        $model = Vehicle::with(['tracker.company', 'color', 'fuelType', 'vehicleImages', 'vehicleBrand', 'vehiclePlace.place'])->find($id);
+        $model = Vehicle::with(['tracker', 'color', 'fuelType', 'vehicleImages', 'vehicleBrand', 'vehiclePlace.place'])->find($id);
         return $model;
     }
 
@@ -145,7 +145,7 @@ class VehicleService {
 
     public function selectVehicle($params) {
 
-        $model = Vehicle::with(['tracker.company']);
+        $model = Vehicle::with(['tracker']);
 
         if($params->search) {
             $model = $model->where(function ($query) use ($params) {

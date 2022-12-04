@@ -12,6 +12,7 @@ class TransactionLogService
         $model->transactionable_type = $request['transactionable_type'];
         $model->transactionable_id = $request['transactionable_id'];
         $model->type = $request['type'];
+        $model->process = $request['process'];
         $model->save();
     }
 }

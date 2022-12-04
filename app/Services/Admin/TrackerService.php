@@ -9,7 +9,7 @@ class TrackerService
 
     public function list($params)
     {
-        $overcharges = Tracker::with(['company', 'vehicle']);
+        $overcharges = Tracker::with(['vehicle']);
 
         if ($params->search) {
 
@@ -28,7 +28,7 @@ class TrackerService
     public function getTrackerById($id)
     {
 
-        $tracker = Tracker::with(['company', 'vehicle'])->find($id);
+        $tracker = Tracker::with(['vehicle'])->find($id);
 
         return $tracker;
     }
@@ -38,7 +38,6 @@ class TrackerService
 
         $model = new Tracker();
         $model->name = $request->name;
-        $model->company_id = $request->company_id;
         $model->save();
 
         return response()->json($this->getTrackerById($model->id), 200);
@@ -49,7 +48,6 @@ class TrackerService
 
         $model = Tracker::find($id);
         $model->name = $request->name;
-        $model->company_id = $request->company_id;
         $model->save();
 
         return response()->json($this->getTrackerById($model->id), 200);
@@ -92,7 +90,7 @@ class TrackerService
 
     public function selectTrackers($params)
     {
-        $model = Tracker::with(['company', 'vehicle']);
+        $model = Tracker::with(['vehicle']);
 
         if ($params->search) {
             $model = $model->where(function ($query)  use ($params) {
