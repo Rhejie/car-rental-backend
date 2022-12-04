@@ -72,6 +72,10 @@ class BookingController extends Controller
 
     }
 
+    public function decline(Request $request) {
+        return $this->bookingService->decline(json_decode(json_encode($request->all())));
+    }
+
     public function deploy($id, DeployRequest $request) {
         return $this->bookingService->deploy($id, $request);
     }

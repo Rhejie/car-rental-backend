@@ -35,10 +35,13 @@ Route::get('/user/profile/restore', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
     // vehicle apis
+    Route::get('/user/data', function (Request $request) {
+        return 100;
+    });
 
     Route::prefix('admin')
         ->group(function () {
-            Route::get('/count-users', [App\Http\Controllers\DashboardController::class, 'countUsers']);
+            Route::get('users-count', [App\Http\Controllers\DashboardController::class, 'countUsers']);
             Route::get('/count-verified-account', [App\Http\Controllers\DashboardController::class, 'countVerifiedAccount']);
             Route::get('/count-unverified-account', [App\Http\Controllers\DashboardController::class, 'countUnVerifiedAccount']);
             Route::get('/count-total-bookings', [App\Http\Controllers\DashboardController::class, 'countTotalBookings']);
@@ -59,6 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('user')->group(function () {
         Route::get('/list', [App\Http\Controllers\UsersController::class, 'list']);
         Route::post('/verified/{id}', [App\Http\Controllers\AuthController::class, 'verifiedUser']);
+
     });
 
     Route::prefix('payment')->group(function () {
@@ -84,6 +88,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/history/{vehicle_id}', [App\Http\Controllers\BookingController::class, 'history']);
         Route::post('/store', [App\Http\Controllers\BookingController::class, 'store'])->name('user-store-booking');
         Route::post('/accept', [App\Http\Controllers\BookingController::class, 'accept']);
+        Route::post('/decline', [App\Http\Controllers\BookingController::class, 'decline']);
         Route::post('/deploy/{id}', [App\Http\Controllers\BookingController::class, 'deploy']);
         Route::post('/returned/{id}', [App\Http\Controllers\BookingController::class, 'returned']);
         Route::get('/get-current-book', [App\Http\Controllers\BookingController::class, 'getCurrentBookUser']);

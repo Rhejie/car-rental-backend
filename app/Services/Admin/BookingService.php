@@ -58,7 +58,6 @@ class BookingService
         }
 
         $bookings = $bookings
-            ->where('booking_start', '>', Carbon::now())
             ->orderBy('booking_start', 'asc')->paginate($params->count, ['*'], 'page', $params->page);
 
         return response()->json($bookings, 200);
@@ -119,6 +118,22 @@ class BookingService
             'transactionable_id' => $model->id,
             'type' => 'booking',
             'process' => 'accept'
+        ];
+
+        TransactionLogJob::dispatch($params);
+        return response()->json($this->getBookingById($model->id));
+    }
+
+    public function decline($request) {
+        $model = Booking::find($request->id);
+        $model->booking_status = 'decline';
+        $model->save();
+
+        $params = [
+            'transactionable_type' => 'App\Models\Booking',
+            'transactionable_id' => $model->id,
+            'type' => 'booking',
+            'process' => 'decline'
         ];
 
         TransactionLogJob::dispatch($params);
