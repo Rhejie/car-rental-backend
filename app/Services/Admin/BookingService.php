@@ -88,7 +88,6 @@ class BookingService
 
         $bookings = $bookings
             ->where('deployed', '!=', false)
-            ->where('booking_start', '>', Carbon::now())
             ->orderBy('booking_start', 'asc')->paginate($params->count, ['*'], 'page', $params->page);
 
         return response()->json($bookings, 200);

@@ -32,6 +32,7 @@ class PlacesService {
 
         $model = new Places();
         $model->name = $request->name;
+        $model->area = json_encode($request->area);
         $model->save();
         return $model;
 
@@ -43,6 +44,7 @@ class PlacesService {
 
         $model = Places::find($id);
         $model->name = $request->name;
+        $model->area = json_encode($request->area);
         $model->save();
         return $model;
 

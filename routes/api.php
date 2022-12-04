@@ -33,9 +33,23 @@ Route::get('/user/profile/restore', function (Request $request) {
     return $request->get('url');
 });
 
-
 Route::middleware('auth:sanctum')->group(function () {
     // vehicle apis
+
+    Route::prefix('admin')
+        ->group(function () {
+            Route::get('/count-users', [App\Http\Controllers\DashboardController::class, 'countUsers']);
+            Route::get('/count-verified-account', [App\Http\Controllers\DashboardController::class, 'countVerifiedAccount']);
+            Route::get('/count-unverified-account', [App\Http\Controllers\DashboardController::class, 'countUnVerifiedAccount']);
+            Route::get('/count-total-bookings', [App\Http\Controllers\DashboardController::class, 'countTotalBookings']);
+            Route::get('/count-pending-bookings', [App\Http\Controllers\DashboardController::class, 'countPendingBookings']);
+            Route::get('/count-accept-bookings', [App\Http\Controllers\DashboardController::class, 'countAcceptBookings']);
+            Route::get('/count-cancel-bookings', [App\Http\Controllers\DashboardController::class, 'countCancelBookings']);
+            Route::get('/count-decline-bookings', [App\Http\Controllers\DashboardController::class, 'countDeclineBookings']);
+            Route::get('/count-deployed-bookings', [App\Http\Controllers\DashboardController::class, 'countDeployedBookings']);
+            Route::get('/count-returned-bookings', [App\Http\Controllers\DashboardController::class, 'countReturnedBookings']);
+            Route::get('/count-vehicles', [App\Http\Controllers\DashboardController::class, 'countVehicles']);
+        });
 
     Route::get('/user-profile/{id}', [App\Http\Controllers\AuthController::class, 'getUserProfile']);
 

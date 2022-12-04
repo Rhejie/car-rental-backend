@@ -114,7 +114,7 @@ class VehiclePlaceService
             });
         }
 
-        $model = $model->limit(50)->get();
+        $model = $model->get();
 
         return response()->json($model);
     }

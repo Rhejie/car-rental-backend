@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin;
 
+use App\Events\StoreCoordinates;
 use App\Models\Booking;
 use App\Models\Tracker;
 use App\Models\TrackerCoordinates;
@@ -41,6 +42,8 @@ class TrackerCoordinatesService {
         $model->batt = isset($request['batt']) && $request['batt'] ? $request['batt'] : null ;
 
         $model->save();
+
+        broadcast(new StoreCoordinates($model))->toOthers();
     }
 
     public function getDeployedTracker() {
@@ -49,7 +52,16 @@ class TrackerCoordinatesService {
 
         $vehiclesTrackerId = Vehicle::select(['tracker_id'])->whereIn('id', $bookingsVehicleID)->get();
 
-        $trackers = Tracker::with(['trackerCoordinates', 'vehicle'])->whereIn('id', $vehiclesTrackerId)->get();
+        $trackers = Tracker::with([
+            'trackerCoordinates' => function ($query) {
+                $query->with([
+                    'booking' => function ($query) {
+                            $query->with([
+                                'vehicle' => function ($query) {
+                                                $query->with(['vehicleBrand', 'tracker']);
+                            }, 'user']);
+                        }]);
+        }, 'vehicle'])->whereIn('id', $vehiclesTrackerId)->get();
 
         return response()->json($trackers);
     }
