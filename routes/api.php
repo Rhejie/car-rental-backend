@@ -154,6 +154,16 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/select-company', [App\Http\Controllers\CompanyController::class, 'selectCompany']);
         });
 
+    Route::prefix('driver')->group(function () {
+        Route::get('/drivers', [App\Http\Controllers\DriverController::class, 'list']);
+        Route::post('/store', [App\Http\Controllers\DriverController::class, 'store']);
+        Route::post('/update/{id}', [App\Http\Controllers\DriverController::class, 'update']);
+        Route::post('/trash/{id}', [App\Http\Controllers\DriverController::class, 'trash']);
+        Route::post('/force-delete/{id}', [App\Http\Controllers\DriverController::class, 'forceDelete']);
+        Route::post('/restore/{id}', [App\Http\Controllers\DriverController::class, 'restore']);
+        Route::get('/select-driver', [App\Http\Controllers\DriverController::class, 'selectDriver']);
+    });
+
     Route::prefix('overcharge')->group(function () {
 
         Route::prefix('type')->group(function () {

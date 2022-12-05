@@ -30,4 +30,8 @@ class Booking extends Model
         return $this->hasMany(Payment::class);
     }
 
+    public function driver() {
+        return $this->belongsTo(Driver::class);
+    }
+
 }

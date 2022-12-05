@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Booking;
 
+use App\Rules\Booking\DriverRule;
 use App\Rules\Booking\PaymentMoreThanPriceRule;
 use App\Rules\Booking\PaymentPriceBookingRule;
 use App\Rules\Booking\ReferenceNumberBookingRule;
@@ -31,6 +32,8 @@ class DeployRequest extends FormRequest
             'payment_method' => ['required'],
             'reference_number' => [new ReferenceNumberBookingRule($this->payment_method)],
             'total_price' => 'required',
+            'add_driver' => 'required|boolean',
+            'driver' => [new DriverRule($this->add_driver)],
             'price' => ['required', new PaymentPriceBookingRule($this->total_price), new PaymentMoreThanPriceRule($this->total_price)],
         ];
     }

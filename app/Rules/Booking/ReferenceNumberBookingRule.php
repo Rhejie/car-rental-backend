@@ -26,6 +26,10 @@ class ReferenceNumberBookingRule implements Rule
      */
     public function passes($attribute, $value)
     {
+        if($value) {
+            return true;
+        }
+
         if(!$this->paymentMethod) {
             return true;
         }

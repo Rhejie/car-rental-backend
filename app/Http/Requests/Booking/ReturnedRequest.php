@@ -31,7 +31,7 @@ class ReturnedRequest extends FormRequest
         return [
             'type' => 'required',
             'is_fully_paid' => ['required', 'boolean'],
-            'payment_method' => [new PaymentMethodRuleInReturnedBooking($this->is_fully_paid)],
+            'payment_method' => [new PaymentMethodRuleInReturnedBooking($this->is_fully_paid, $this->overcharges)],
             'has_penalty' => ['required', 'boolean'],
             'reference_number' => [new ReferenceNumberBookingRule($this->payment_method)],
             'total_price' => 'required',

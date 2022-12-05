@@ -4,19 +4,17 @@ namespace App\Rules\Booking;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class PaymentMethodRuleInReturnedBooking implements Rule
+class DriverRule implements Rule
 {
-    private $is_fully_paid;
-    private $overcharges;
+    private $add_driver;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($is_fully_paid = false, $overcharges)
+    public function __construct($add_driver)
     {
-        $this->is_fully_paid = $is_fully_paid;
-        $this->overcharges = $overcharges;
+        $this->add_driver = $add_driver;
     }
 
     /**
@@ -28,16 +26,15 @@ class PaymentMethodRuleInReturnedBooking implements Rule
      */
     public function passes($attribute, $value)
     {
-        if($this->is_fully_paid && collect($this->overcharges)->count() > 0 && !$value) {
+        if($this->add_driver && !$value) {
             return false;
         }
 
-        if($this->is_fully_paid || $value ) {
-            return true;
-        }
-        else {
+        if(!$value && $this->add_driver) {
             return false;
         }
+
+        return true;
     }
 
     /**
@@ -47,6 +44,6 @@ class PaymentMethodRuleInReturnedBooking implements Rule
      */
     public function message()
     {
-        return 'The Payment Method field is required.';
+        return 'Driver is required.';
     }
 }

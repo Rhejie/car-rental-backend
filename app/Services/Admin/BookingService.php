@@ -44,7 +44,7 @@ class BookingService
         }
 
 
-        if($role->name == 'admin' && !isset($vehicle_id) && !$vehicle_id) {
+        if($role->name == 'admin' && !$vehicle_id) {
 
             $bookings = $bookings->where('deployed', false);
 
@@ -66,7 +66,7 @@ class BookingService
     public function deployedList($params, $vehicle_id = null)
     {
 
-        $bookings = Booking::with(['vehicle' => function ($query) use ($params) {
+        $bookings = Booking::with(['driver','vehicle' => function ($query) use ($params) {
             $query->with(['vehicleBrand', 'tracker', 'vehicleImages']);
         }, 'vehiclePlace.place', 'user', 'payments.paymentMode']);
 
@@ -160,7 +160,12 @@ class BookingService
 
         $model = Booking::find($id);
         $model->deployed = true;
+        $model->driver_id = $request->driver['id'];
         $model->save();
+
+        if($model->driver_id) {
+            (new DriverServices)->updateDriverStatus($model->driver_id, false);
+        }
 
 
         $params = [
@@ -182,7 +187,9 @@ class BookingService
         $model->returned = true;
         $model->save();
 
-
+        if($model->driver_id) {
+            (new DriverServices)->updateDriverStatus($model->driver_id, true);
+        }
         $params = [
             'transactionable_type' => 'App\Models\Booking',
             'transactionable_id' => $model->id,
@@ -192,7 +199,7 @@ class BookingService
 
         TransactionLogJob::dispatch($params);
 
-        if(!$request->is_fully_paid) {
+        if(!$request->is_fully_paid || collect($request->overcharges)->count() > 0) {
             (new PaymentService)->store($request, $model->id);
         }
 
@@ -222,7 +229,7 @@ class BookingService
     public function getUserLatestBook()
     {
 
-        $model = Booking::with(['vehicle' => function ($query) {
+        $model = Booking::with(['driver','vehicle' => function ($query) {
             $query->with(['vehicleBrand', 'tracker', 'vehicleImages']);
         }, 'vehiclePlace.place', 'user'])
         ->where('user_id', auth()->user()->id)->where(function ($query) {
