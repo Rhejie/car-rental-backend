@@ -160,7 +160,7 @@ class BookingService
 
         $model = Booking::find($id);
         $model->deployed = true;
-        $model->driver_id = $request->driver['id'];
+        $model->driver_id = isset($request->driver) && $request->driver ? $request->driver['id'] : null;
         $model->save();
 
         if($model->driver_id) {

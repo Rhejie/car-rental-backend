@@ -29,9 +29,9 @@ class PaymentMoreThanPriceRule implements Rule
     public function passes($attribute, $value)
     {
 
-        $this->total_price = $this->total_price;
+        $this->total_price = $this->total_price + $this->paid_price;
 
-        if($value == $this->total_price) {
+        if($value >= $this->total_price) {
             return true; //
         }
 
@@ -45,6 +45,6 @@ class PaymentMoreThanPriceRule implements Rule
      */
     public function message()
     {
-        return 'Payment must be equal to the total payment.';
+        return 'Payment must be equal or less than to the total price.';
     }
 }
