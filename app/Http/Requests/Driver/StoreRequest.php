@@ -25,8 +25,8 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'availability' => 'required',
-            'price' => 'required',
+            'license_no' => 'required',
+            'license_expiration_date' => 'required|date',
         ];
     }
 }

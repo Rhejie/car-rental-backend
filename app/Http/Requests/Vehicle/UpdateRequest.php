@@ -36,7 +36,14 @@ class UpdateRequest extends FormRequest
             'engine_no' => 'required',
             'chassis_no' => 'required',
             'cr_expiration_date' => 'required|date',
-            'capacity' => 'required'
+            'capacity' => 'required',
+            'make' => 'required',
+            'or_no' => 'required',
+            'price' => 'required',
+            'battery_lifespan' => 'required',
+            'battery_date_used' => 'required|date',
+            'tires_lifespan' => 'required',
+            'tires_date_used' => 'required|date',
         ];
     }
 }

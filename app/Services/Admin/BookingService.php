@@ -21,7 +21,7 @@ class BookingService
 
         $bookings = Booking::with(['vehicle' => function ($query) use ($params) {
             $query->with(['vehicleBrand', 'tracker', 'vehicleImages']);
-        }, 'vehiclePlace.place', 'user']);
+        },  'user']);
 
         if ($params->search) {
 
@@ -68,7 +68,7 @@ class BookingService
 
         $bookings = Booking::with(['driver','vehicle' => function ($query) use ($params) {
             $query->with(['vehicleBrand', 'tracker', 'vehicleImages']);
-        }, 'vehiclePlace.place', 'user', 'payments.paymentMode']);
+        }, 'user', 'payments.paymentMode']);
 
         if ($params->search) {
 
@@ -99,10 +99,16 @@ class BookingService
 
         $model->booking_start = $request->booking_start;
         $model->booking_end = $request->booking_end;
-        $model->vehicle_place_id = $request->vehicle_place_id;
         $model->user_id = isset($request->user_id) ? $request->user_id : auth()->user()->id;
         $model->booking_status = 'pending';
         $model->vehicle_id = $request->vehicle_id;
+        $model->add_driver = $request->add_driver;
+        $model->destination = $request->destination;
+        $model->booking_purpose = $request->booking_purpose;
+        $model->primary_operator_name = $request->primary_operator_name;
+        $model->primary_operator_license_no = $request->primary_operator_license_no;
+        $model->secondary_operator_name = $request->secondary_operator_name;
+        $model->secondary_operator_license_no = $request->secondary_operator_license_no;
         $model->save();
 
         return response()->json($this->getBookingById($model->id));
@@ -161,6 +167,7 @@ class BookingService
         $model = Booking::find($id);
         $model->deployed = true;
         $model->driver_id = isset($request->driver) && $request->driver ? $request->driver['id'] : null;
+        $model->add_driver = $request->add_driver;
         $model->save();
 
         if($model->driver_id) {
@@ -231,7 +238,7 @@ class BookingService
 
         $model = Booking::with(['driver','vehicle' => function ($query) {
             $query->with(['vehicleBrand', 'tracker', 'vehicleImages']);
-        }, 'vehiclePlace.place', 'user'])
+        }, 'user'])
         ->where('user_id', auth()->user()->id)->where(function ($query) {
             $query->where('booking_status', 'pending');
             $query->orWhere('booking_status', 'accept');

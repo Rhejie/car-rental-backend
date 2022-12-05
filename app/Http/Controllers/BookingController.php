@@ -95,4 +95,8 @@ class BookingController extends Controller
         return $this->bookingService->getUserLatestBook();
 
     }
+
+    public function download($id) {
+
+    }
 }

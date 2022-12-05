@@ -34,10 +34,9 @@ class DriverController extends Controller
 
     public function selectDriver(Request $request) {
 
-        $days = $request->day ? $request->day : null;
         $search = $request->search && $request->search != '' ?  $request->search : null;
 
-        return $this->driverService->selectDriver($days, $search);
+        return $this->driverService->selectDriver($search);
 
     }
 

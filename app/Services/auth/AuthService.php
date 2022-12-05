@@ -60,6 +60,13 @@ class AuthService {
 
         (new UserIdentificationService())->store(json_decode(json_encode($params)));
 
+        $params = [
+            'image_url' => $request->user_selfi,
+            'user_id' => $user->id
+        ];
+
+        (new UserIdentificationService())->store(json_decode(json_encode($params)));
+
         return response()->json($user);
     }
 }

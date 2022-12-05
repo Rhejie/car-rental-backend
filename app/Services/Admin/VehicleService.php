@@ -92,6 +92,13 @@ class VehicleService {
         $model->cr_expiration_date = $request->cr_expiration_date;
         $model->publish = $request->publish;
         $model->capacity = $request->capacity;
+        $model->make = $request->make;
+        $model->battery_lifespan = $request->battery_lifespan;
+        $model->battery_date_used = $request->battery_date_used;
+        $model->tires_lifespan = $request->tires_lifespan;
+        $model->tires_date_used = $request->tires_date_used;
+        $model->price = $request->price;
+        $model->or_no = $request->or_no;
         $model->save();
 
         return response()->json($this->getVehicleById($model->id));

@@ -3,6 +3,7 @@
 namespace App\Services\Admin;
 
 use App\Models\Driver;
+use Carbon\Carbon;
 
 class DriverServices {
 
@@ -26,9 +27,9 @@ class DriverServices {
         return response()->json($drivers, 200);
     }
 
-    public function selectDriver($day, $search) {
+    public function selectDriver( $search) {
 
-        $res = Driver::where('availability', '>=', $day)->where('status', true);
+        $res = Driver::where('status', true)->where('license_expiration_date', '>', Carbon::now());
 
         if($search) {
 
@@ -45,8 +46,8 @@ class DriverServices {
 
         $model = new Driver();
         $model->name = $request->name;
-        $model->availability = $request->availability;
-        $model->price = $request->price;
+        $model->license_no = $request->license_no;
+        $model->license_expiration_date = $request->license_expiration_date;
         $model->status = true;
         $model->save();
 

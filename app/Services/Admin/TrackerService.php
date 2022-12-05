@@ -95,9 +95,6 @@ class TrackerService
         if ($params->search) {
             $model = $model->where(function ($query)  use ($params) {
                 $query->where('name', 'LIKE', "%$params->search%");
-                $query->orWhereHas('company', function ($query) use ($params) {
-                    $query->where('name', 'LIKE', "%$params->search%");
-                });
             });
         }
 

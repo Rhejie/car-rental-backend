@@ -26,10 +26,14 @@ class StoreRequest extends FormRequest
     {
 
         return [
+            'add_driver' => 'required|boolean',
             'booking_start' => ['required', 'date', 'after:today', new BookingDateRule($this->vehicle_id, $this->booking_end)],
             'booking_end' => 'required|date|after:booking_start',
             'vehicle_id' => 'required',
-            'vehicle_place_id' => 'required',
+            'destination' => 'required|string',
+            'booking_purpose' => 'required|string',
+            'primary_operator_name' => 'exclude_unless:add_driver,true|required',
+            'primary_operator_license_no' => 'exclude_unless:add_driver,true|required',
         ];
     }
 }

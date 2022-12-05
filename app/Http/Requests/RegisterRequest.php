@@ -33,6 +33,7 @@ class RegisterRequest extends FormRequest
             'gender' => 'required',
             'contact_number' => 'required',
             'address' => 'required',
+            'user_selfi' => 'required'
         ];
     }
 }
