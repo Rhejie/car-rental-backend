@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Booking\DeployRequest;
 use App\Http\Requests\Booking\ReturnedRequest;
 use App\Http\Requests\Booking\StoreRequest;
+use App\Models\Booking;
 use App\Services\Admin\BookingService;
+use PDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BookingController extends Controller
 {
@@ -98,5 +101,18 @@ class BookingController extends Controller
 
     public function download($id) {
 
+        $book = Booking::with(['user', 'payments', 'vehicle', 'driver', 'payments.paymentMode'])->find($id);
+
+        $fileName = 'Invoice-'.$book->user->first_name.'-'.$book->user->last_name. time() . '.pdf';
+        $pdf = new PDF;
+        $pdf = PDF::loadView('invoice.user-booking-invoice', ["item" => $book]);
+
+        $store = Storage::disk('local')->put('downloads/'.$fileName, $pdf->output());
+
+        $path = 'downloads/'.$fileName;
+
+        $url = Storage::disk('local')->url($path);
+
+        return Storage::disk('local')->download($path);
     }
 }

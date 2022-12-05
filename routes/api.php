@@ -22,13 +22,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/send', [App\Http\Controllers\TrackerCoordinatesController::class, 'sendCoordinate']);
 
-
+Route::get('/invoice/{id}', [App\Http\Controllers\InvoicesController::class, 'download']);
 
 Route::post('/user/login', [App\Http\Controllers\AuthController::class, 'login']);
 Route::post('/user/register', [App\Http\Controllers\AuthController::class, 'register']);
 Route::post('/remove/profile_url', [App\Http\Controllers\UsersController::class, 'removeImageInStorageInRegister']);
 
 Route::post('/user/profile/upload', [App\Http\Controllers\UsersController::class, 'uploadProfile']);
+Route::get('/download/{id}', [App\Http\Controllers\BookingController::class, 'download']);
 
 Route::get('/user/profile/restore', function (Request $request) {
     return $request->get('url');
@@ -95,6 +96,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/returned/{id}', [App\Http\Controllers\BookingController::class, 'returned']);
         Route::get('/get-current-book', [App\Http\Controllers\BookingController::class, 'getCurrentBookUser']);
         Route::get('/deployed-list', [App\Http\Controllers\BookingController::class, 'deployedList']);
+        Route::get('/download/{id}', [App\Http\Controllers\BookingController::class, 'download']);
     });
 
     Route::prefix('vehicle-place')->group(function () {
