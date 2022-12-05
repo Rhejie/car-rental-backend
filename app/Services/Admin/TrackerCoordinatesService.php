@@ -61,7 +61,7 @@ class TrackerCoordinatesService {
                                                 $query->with(['vehicleBrand', 'tracker']);
                             }, 'user']);
                         }]);
-        }, 'vehicle'])->whereIn('id', $vehiclesTrackerId)->get();
+        }, 'vehicle'])->whereIn('id', $vehiclesTrackerId)->whereHas('trackerCoordinates')->get();
 
         return response()->json($trackers);
     }
