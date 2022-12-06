@@ -198,6 +198,10 @@ class BookingService
         $model->booking_status = 'cancel';
         $model->save();
 
+        if($model->driver_id) {
+            (new DriverServices)->updateDriverStatus($model->driver_id, true);
+        }
+
         $params = [
             'transactionable_type' => 'App\Models\Booking',
             'transactionable_id' => $model->id,
@@ -257,6 +261,7 @@ class BookingService
     }
 
     public function returned($id, $request) {
+
         $model = Booking::find($id);
         $model->returned = true;
         $model->save();
