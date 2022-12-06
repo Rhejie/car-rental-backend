@@ -32,8 +32,8 @@ class StoreRequest extends FormRequest
             'vehicle_id' => 'required',
             'destination' => 'required|string',
             'booking_purpose' => 'required|string',
-            'primary_operator_name' => 'exclude_unless:add_driver,true|required',
-            'primary_operator_license_no' => 'exclude_unless:add_driver,true|required',
+            'primary_operator_name' => 'exclude_unless:add_driver,false|required',
+            'primary_operator_license_no' => 'exclude_unless:add_driver,false|required',
         ];
     }
 }
