@@ -102,6 +102,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/get-current-book', [App\Http\Controllers\BookingController::class, 'getCurrentBookUser']);
         Route::get('/deployed-list', [App\Http\Controllers\BookingController::class, 'deployedList']);
         Route::get('/download/{id}', [App\Http\Controllers\BookingController::class, 'download']);
+        Route::get('/transaction-form/{id}', [App\Http\Controllers\BookingController::class, 'transactionForm']);
     });
 
     Route::prefix('vehicle-place')->group(function () {

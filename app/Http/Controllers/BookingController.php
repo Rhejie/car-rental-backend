@@ -115,4 +115,20 @@ class BookingController extends Controller
 
         return Storage::disk('local')->download($path);
     }
+
+    public function transactionForm($id) {
+        $book = Booking::with(['user', 'payments', 'vehicle.vehicleBrand', 'driver', 'payments.paymentMode'])->find($id);
+
+        $fileName = 'Invoice-'.$book->user->first_name.'-'.$book->user->last_name. time() . '.pdf';
+        $pdf = new PDF;
+        $pdf = PDF::loadView('agreement.transaction', ["item" => $book]);
+
+        $store = Storage::disk('local')->put('downloads/'.$fileName, $pdf->output());
+
+        $path = 'downloads/'.$fileName;
+
+        $url = Storage::disk('local')->url($path);
+
+        return Storage::disk('local')->download($path);
+    }
 }
