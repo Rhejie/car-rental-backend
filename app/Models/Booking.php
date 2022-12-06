@@ -12,6 +12,8 @@ class Booking extends Model
 
     protected $casts = [
         'created_at' =>  'datetime:Y-M-d',
+        'booking_start' =>  'datetime:Y-M-d h:m a',
+        'booking_end' =>  'datetime:Y-M-d h:m a',
     ];
 
     public function vehicle() {
