@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\SendUserNotification;
 use App\Jobs\SendingEmailVerificationJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('auth:sanctum')->post('/try', function () {
+    $user = auth()->user();
+
+    broadcast(new SendUserNotification('', 'Booking', 'Successfully booked the current status is pending, please wait', $user))->toOthers();
+
+    return true;
+});
 
 Route::post('/send', [App\Http\Controllers\TrackerCoordinatesController::class, 'sendCoordinate']);
 
@@ -40,6 +48,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // vehicle apis
     Route::get('/user/data', function (Request $request) {
         return 100;
+    });
+
+    Route::prefix('notification')->group(function () {
+        Route::get('/user', [App\Http\Controllers\NotificationsController::class, 'getMyNotifications']);
     });
 
     Route::prefix('reports')->group(function () {

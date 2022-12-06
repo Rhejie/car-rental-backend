@@ -2,6 +2,8 @@
 
 namespace App\Services\Admin;
 
+use App\Events\SendUserNotification;
+use App\Jobs\NotificationJob;
 use App\Jobs\PaymentJob;
 use App\Jobs\SavePaymentTransactionJob;
 use App\Jobs\TransactionLogJob;
@@ -95,6 +97,8 @@ class BookingService
     public function store($request)
     {
 
+        $user = auth()->user();
+
         $model = new Booking();
 
         $model->booking_start = $request->booking_start;
@@ -111,6 +115,28 @@ class BookingService
         $model->secondary_operator_license_no = $request->secondary_operator_license_no;
         $model->save();
 
+
+        broadcast(new SendUserNotification('', 'Booking', 'Successfully booked the current status is pending, please wait', $user))->toOthers();
+
+        $paramsNotification = [
+            'user_id' => $model->user_id,
+            'message' => 'Your destination to '.$model->destination.' on '. (Carbon::parse($model->booking_start))->format('M d, Y').' is successfully booked!',
+            'title' => 'Booking',
+            'link' => '/user/bookings',
+            'action' => 'success'
+        ];
+
+        NotificationJob::dispatch($paramsNotification);
+
+        $params = [
+            'transactionable_type' => 'App\Models\Booking',
+            'transactionable_id' => $model->id,
+            'type' => 'booking',
+            'process' => 'pending'
+        ];
+
+        TransactionLogJob::dispatch($params);
+
         return response()->json($this->getBookingById($model->id));
     }
 
@@ -125,6 +151,16 @@ class BookingService
             'type' => 'booking',
             'process' => 'accept'
         ];
+
+        $paramsNotification = [
+            'user_id' => $model->user_id,
+            'message' => 'Your destination to '.$model->destination.' on '. (Carbon::parse($model->booking_start))->format('M d, Y').' is successfully accepted!',
+            'title' => 'Booking',
+            'link' => '/user/bookings',
+            'action' => 'success'
+        ];
+
+        NotificationJob::dispatch($paramsNotification);
 
         TransactionLogJob::dispatch($params);
         return response()->json($this->getBookingById($model->id));
@@ -142,11 +178,22 @@ class BookingService
             'process' => 'decline'
         ];
 
+        $paramsNotification = [
+            'user_id' => $model->user_id,
+            'message' => 'Your destination to '.$model->destination.' on '. (Carbon::parse($model->booking_start))->format('M d, Y').' is declined!',
+            'title' => 'Booking',
+            'link' => '/user/bookings',
+            'action' => 'fail'
+        ];
+
+        NotificationJob::dispatch($paramsNotification);
+
         TransactionLogJob::dispatch($params);
         return response()->json($this->getBookingById($model->id));
     }
 
     public function cancel($request) {
+
         $model = Booking::find($request->id);
         $model->booking_status = 'cancel';
         $model->save();
@@ -157,6 +204,16 @@ class BookingService
             'type' => 'booking',
             'process' => 'cancel'
         ];
+
+        $paramsNotification = [
+            'user_id' => $model->user_id,
+            'message' => 'Your destination to '.$model->destination.' on '. (Carbon::parse($model->booking_start))->format('M d, Y').' is cancelled!',
+            'title' => 'Booking',
+            'link' => '/user/bookings',
+            'action' => 'warning'
+        ];
+
+        NotificationJob::dispatch($paramsNotification);
 
         TransactionLogJob::dispatch($params);
         return response()->json($this->getBookingById($model->id));
@@ -182,6 +239,16 @@ class BookingService
             'process' => 'deploy'
         ];
 
+        $paramsNotification = [
+            'user_id' => $model->user_id,
+            'message' => 'Your destination to '.$model->destination.' on '. (Carbon::parse($model->booking_start))->format('M d, Y').' successfully deployed drive safely!',
+            'title' => 'Booking',
+            'link' => '/user/bookings',
+            'action' => 'success'
+        ];
+
+        NotificationJob::dispatch($paramsNotification);
+
         TransactionLogJob::dispatch($params);
 
         (new PaymentService)->store($request, $model->id);
@@ -203,6 +270,16 @@ class BookingService
             'type' => 'booking',
             'process' => 'returned'
         ];
+
+        $paramsNotification = [
+            'user_id' => $model->user_id,
+            'message' => 'Your destination to '.$model->destination.' on '. (Carbon::parse($model->booking_start))->format('M d, Y').' is succussfully returned!',
+            'title' => 'Booking',
+            'link' => '/user/bookings',
+            'action' => 'success'
+        ];
+
+        NotificationJob::dispatch($paramsNotification);
 
         TransactionLogJob::dispatch($params);
 

@@ -59,16 +59,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
-/***/ "./src/global-composables/local-storage.js":
-/*!*************************************************!*\
-  !*** ./src/global-composables/local-storage.js ***!
-  \*************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"accessToken\": function() { return /* binding */ accessToken; }\n/* harmony export */ });\nfunction accessToken() {\n  return localStorage.getItem('car_rental_access_token');\n}\n\n//# sourceURL=webpack://car-rental-frontend/./src/global-composables/local-storage.js?");
-
-/***/ }),
-
 /***/ "./src/components/GPagination.vue":
 /*!****************************************!*\
   !*** ./src/components/GPagination.vue ***!

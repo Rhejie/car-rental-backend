@@ -21,3 +21,7 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('new-coordinates', function () {
     return true;
 });
+
+Broadcast::channel('user-notify', function () {
+    return true;
+});
