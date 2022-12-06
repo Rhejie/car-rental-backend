@@ -15,4 +15,12 @@ class TransactionLogService
         $model->process = $request['process'];
         $model->save();
     }
+
+    public function dailyReport($date){
+        if($date) {
+
+        }
+
+        return response()->json(['message' => 'No available']);
+    }
 }

@@ -102,7 +102,7 @@
             <div class="brand-section">
                 <div class="row">
                     <div class="col-6">
-                        <h1 class="text-white">ABC Car Rental</h1>
+                        <h1 class="text-white">APC Car Rental</h1>
                     </div>
                 </div>
             </div>
