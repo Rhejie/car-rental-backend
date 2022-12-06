@@ -31,6 +31,7 @@ Route::post('/remove/profile_url', [App\Http\Controllers\UsersController::class,
 Route::post('/user/profile/upload', [App\Http\Controllers\UsersController::class, 'uploadProfile']);
 Route::get('/download/{id}', [App\Http\Controllers\BookingController::class, 'download']);
 
+Route::get('/transaction-form', [App\Http\Controllers\InvoicesController::class, 'transactionForm']);
 Route::get('/user/profile/restore', function (Request $request) {
     return $request->get('url');
 });
@@ -39,6 +40,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // vehicle apis
     Route::get('/user/data', function (Request $request) {
         return 100;
+    });
+
+    Route::prefix('reports')->group(function () {
+        Route::get('/daily', [App\Http\Controllers\ReportController::class, 'daily']);
     });
 
     Route::prefix('admin')

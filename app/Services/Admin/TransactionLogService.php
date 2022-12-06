@@ -19,6 +19,10 @@ class TransactionLogService
     public function dailyReport($date){
         if($date) {
 
+            $models = TransactionLog::with(['transactionable'])->whereDate('created_at', $date)->get();
+
+            return response()->json($models);
+
         }
 
         return response()->json(['message' => 'No available']);

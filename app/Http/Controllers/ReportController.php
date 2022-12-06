@@ -14,6 +14,7 @@ class ReportController extends Controller
     }
 
     public function daily(Request $request) {
-        return $this->transactionLogService->daily($request->all());
+        $date = $request->date ? $request->date : null;
+        return $this->transactionLogService->dailyReport($date);
     }
 }

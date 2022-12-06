@@ -12,4 +12,9 @@ class InvoicesController extends Controller
 
         return view('invoice.user-booking-invoice', ["item" => $book]);
     }
+
+    public function transactionForm() {
+
+        return view('agreement.transaction');
+    }
 }

@@ -177,7 +177,7 @@
                     <tbody>
 
                         @foreach ($item->payments as $payment)
-                        <tr >
+                        <tr>
                             <td>{{$payment->type}}</td>
                             <td>{{(\Carbon\Carbon::parse($item->created_at))->format('M d, Y')}}</td>
                             <td>{{$payment->price}}</td>
@@ -191,8 +191,8 @@
                 <div class="row">
                     <div class="col-6">
                         <h2 class="heading">Driver</h2>
-                        <p class="sub-heading"><span style="font-weight:bold">Name: </span> {{$item->driver->name}} </p>
-                        <p class="sub-heading"><span style="font-weight:bold">License Expiration Date: </span> {{$item->driver->license_expiration_date}} </p>
+                        <p class="sub-heading"><span style="font-weight:bold">Name: </span> {{$item->add_driver ? $item->driver->name : $item->primary_operator_name}} </p>
+                        <p class="sub-heading"><span style="font-weight:bold">License Expiration Date: </span> {{$item->add_driver ? $item->driver->license_expiration_date : $item->primary_operator_license_no}} </p>
                     </div>
                 </div>
                 @endif
