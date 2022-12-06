@@ -37,7 +37,7 @@
         <center>
             <div style="line-height:30px; width:100%">
                 <div style="width:100%;" >
-                   <span style="font-weight: bold">DATE: 2019-Dec-2</span>
+                   <span style="font-weight: bold">DATE: {{(\Carbon\Carbon::parse($item->booking_start))->format('M d, Y')}}</span>
                 </div>
                 <div style="width:100%;" >
                     <center>
