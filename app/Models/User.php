@@ -73,6 +73,6 @@ class User extends Authenticatable
     }
 
     public function receivesBroadcastNotificationsOn() {
-        return 'notify' . $this->id;
+        return 'notify.' . $this->id;
     }
 }
