@@ -29,7 +29,7 @@ class BookingService
     {
 
         $bookings = Booking::with(['vehicle' => function ($query) use ($params) {
-            $query->with(['vehicleBrand', 'tracker', 'vehicleImages']);
+            $query->with(['vehicleBrand', 'tracker', 'vehicleImages', 'color', 'fuelType']);
         },  'user']);
 
         if ($params->search) {
@@ -101,6 +101,25 @@ class BookingService
         return response()->json($bookings, 200);
     }
 
+    public function update($request, $id) {
+
+        $model = Booking::find($id);
+        $model->booking_start = $request->booking_start;
+        $model->booking_end = $request->booking_end;
+        $model->user_id = isset($request->user_id) ? $request->user_id : auth()->user()->id;
+        $model->booking_status = 'pending';
+        $model->vehicle_id = $request->vehicle_id;
+        $model->add_driver = $request->add_driver;
+        $model->destination = $request->destination;
+        $model->booking_purpose = $request->booking_purpose;
+        $model->primary_operator_name = $request->primary_operator_name;
+        $model->primary_operator_license_no = $request->primary_operator_license_no;
+        $model->secondary_operator_name = $request->secondary_operator_name;
+        $model->secondary_operator_license_no = $request->secondary_operator_license_no;
+        $model->save();
+        return response()->json($this->getBookingById($model->id));
+    }
+
     public function store($request)
     {
 
@@ -123,15 +142,6 @@ class BookingService
         $user = $model->user;
 
         $user->notify(new UserNotification($user, $model));
-
-        $params = [
-            'transactionable_type' => 'App\Models\Booking',
-            'transactionable_id' => $model->id,
-            'type' => 'booking',
-            'process' => 'pending'
-        ];
-
-        TransactionLogJob::dispatch($params);
 
         broadcast(new NewAddedBookingEvent($user, $model))->toOthers();
 
@@ -278,7 +288,9 @@ class BookingService
     public function getBookingById($id)
     {
 
-        $model = Booking::find($id);
+        $model = Booking::with(['vehicle' => function ($query) {
+            $query->with(['vehicleBrand', 'tracker', 'vehicleImages', 'color', 'fuelType']);
+        },  'user'])->find($id);
 
         return $model;
     }

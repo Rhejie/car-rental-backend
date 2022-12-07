@@ -10,10 +10,11 @@ class Booking extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $with = ['vehicle'];
     protected $casts = [
         'created_at' =>  'datetime:Y-M-d',
-        'booking_start' =>  'datetime:Y-M-d h:m a',
-        'booking_end' =>  'datetime:Y-M-d h:m a',
+        // 'booking_start' =>  'datetime:Y-M-d h:m a',
+        // 'booking_end' =>  'datetime:Y-M-d h:m a',
     ];
 
     public function vehicle() {

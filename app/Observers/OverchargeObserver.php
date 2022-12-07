@@ -19,7 +19,7 @@ class OverchargeObserver
             'transactionable_type' => 'App\Models\Overcharge',
             'transactionable_id' => $overcharge->id,
             'type' => 'overcharge',
-            'process' => 'overcharge'
+            'process' => $overcharge->overchargeType->name
         ];
 
         TransactionLogJob::dispatch($params);

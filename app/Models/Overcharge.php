@@ -10,6 +10,7 @@ class Overcharge extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $with = ['overchargeType'];
     protected $fillable = [
         'booking_id',
         'charge',

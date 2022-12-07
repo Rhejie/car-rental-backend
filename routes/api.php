@@ -56,7 +56,11 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('reports')->group(function () {
+        Route::get('/get-months', [App\Http\Controllers\ReportController::class, 'getAllMonths']);
         Route::get('/daily', [App\Http\Controllers\ReportController::class, 'daily']);
+        Route::get('/monthly', [App\Http\Controllers\ReportController::class, 'monthly']);
+        Route::get('/total-income', [App\Http\Controllers\ReportController::class, 'getTotalIncome']);
+        Route::get('/payments', [App\Http\Controllers\ReportController::class, 'getPayments']);
     });
 
     Route::prefix('admin')
@@ -107,6 +111,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/list', [App\Http\Controllers\BookingController::class, 'list']);
         Route::get('/history/{vehicle_id}', [App\Http\Controllers\BookingController::class, 'history']);
         Route::post('/store', [App\Http\Controllers\BookingController::class, 'store'])->name('user-store-booking');
+        Route::post('/update/{id}', [App\Http\Controllers\BookingController::class, 'update']);
         Route::post('/accept', [App\Http\Controllers\BookingController::class, 'accept']);
         Route::post('/decline', [App\Http\Controllers\BookingController::class, 'decline']);
         Route::post('/cancel', [App\Http\Controllers\BookingController::class, 'cancel']);

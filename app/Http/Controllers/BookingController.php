@@ -69,6 +69,10 @@ class BookingController extends Controller
         return $this->bookingService->store($request);
     }
 
+    public function update(StoreRequest $request, $id) {
+        return $this->bookingService->update($request, $id);
+    }
+
     public function accept(Request $request) {
 
         return $this->bookingService->accept(json_decode(json_encode($request->all())));
