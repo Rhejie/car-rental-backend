@@ -29,16 +29,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
-/***/ "./src/global-composables/http_service.js":
-/*!************************************************!*\
-  !*** ./src/global-composables/http_service.js ***!
-  \************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"http\": function() { return /* binding */ http; },\n/* harmony export */   \"httpFile\": function() { return /* binding */ httpFile; },\n/* harmony export */   \"httpServer\": function() { return /* binding */ httpServer; },\n/* harmony export */   \"storageUrl\": function() { return /* binding */ storageUrl; }\n/* harmony export */ });\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ \"./node_modules/axios/lib/axios.js\");\n/* harmony import */ var _local_storage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./local-storage */ \"./src/global-composables/local-storage.js\");\n\n\nfunction http() {\n  return axios__WEBPACK_IMPORTED_MODULE_1__[\"default\"].create({\n    baseURL: '/api',\n    headers: {\n      Authorization: 'Bearer ' + (0,_local_storage__WEBPACK_IMPORTED_MODULE_0__.accessToken)()\n    }\n  });\n}\nfunction httpServer() {\n  return axios__WEBPACK_IMPORTED_MODULE_1__[\"default\"].create({\n    baseURL: '/api',\n    headers: {\n      'Authorization': 'Bearer ' + (0,_local_storage__WEBPACK_IMPORTED_MODULE_0__.accessToken)(),\n      'Content-Type': 'multipart/form-data'\n    }\n  });\n}\nfunction httpFile() {\n  return axios__WEBPACK_IMPORTED_MODULE_1__[\"default\"].create({\n    baseURL: '/api',\n    headers: {\n      'Authorization': 'Bearer ' + (0,_local_storage__WEBPACK_IMPORTED_MODULE_0__.accessToken)()\n    },\n    responseType: 'blob'\n  });\n}\nconst storageUrl = () => {\n  return \"http://car-rental-backend.test\" + '/storage/';\n};\n\n//# sourceURL=webpack://car-rental-frontend/./src/global-composables/http_service.js?");
-
-/***/ }),
-
 /***/ "./src/modules/login/composables/login-composable.js":
 /*!***********************************************************!*\
   !*** ./src/modules/login/composables/login-composable.js ***!

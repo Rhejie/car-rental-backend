@@ -25,3 +25,8 @@ Broadcast::channel('new-coordinates', function () {
 Broadcast::channel('user-notify', function () {
     return true;
 });
+
+
+Broadcast::channel('notify.{id}', function ($user, $id) {
+    return true;
+});
