@@ -52,6 +52,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('notification')->group(function () {
         Route::get('/user', [App\Http\Controllers\NotificationsController::class, 'getMyNotifications']);
+        Route::post('/view/{id}', [App\Http\Controllers\NotificationsController::class, 'viewNotif']);
     });
 
     Route::prefix('reports')->group(function () {

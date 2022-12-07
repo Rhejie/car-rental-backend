@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Services\Admin\NotificationService;
 use Illuminate\Http\Request;
 
@@ -16,5 +17,12 @@ class NotificationsController extends Controller
 
     public function getMyNotifications() {
         return $this->notficationsService->getMyNotifications();
+    }
+
+    public function viewNotif($id) {
+
+        $user = User::find($id);
+        $user->unreadNotifications()->update(['read_at' => now()]);
+
     }
 }
