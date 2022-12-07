@@ -14,8 +14,8 @@ class InvoicesController extends Controller
     }
 
     public function transactionForm() {
-        $book = Booking::with(['user', 'payments', 'vehicle.vehicleBrand', 'driver', 'payments.paymentMode'])->find(2);
+        $book = Booking::with(['user', 'payments', 'vehicle.vehicleBrand', 'driver', 'payments.paymentMode'])->find(13);
 
-        return view('agreement.transaction',  ["item" => $book]);
+        return view('agreement.agreement',  ["item" => $book]);
     }
 }

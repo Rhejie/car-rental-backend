@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin;
 
+use App\Events\NewAddedBookingEvent;
 use App\Events\SendUserNotification;
 use App\Jobs\NotificationJob;
 use App\Jobs\PaymentJob;
@@ -132,6 +133,8 @@ class BookingService
 
         TransactionLogJob::dispatch($params);
 
+        broadcast(new NewAddedBookingEvent($user, $model))->toOthers();
+
         return response()->json($this->getBookingById($model->id));
     }
 
@@ -145,14 +148,6 @@ class BookingService
             'transactionable_id' => $model->id,
             'type' => 'booking',
             'process' => 'accept'
-        ];
-
-        $paramsNotification = [
-            'user_id' => $model->user_id,
-            'message' => 'Your destination to '.$model->destination.' on '. (Carbon::parse($model->booking_start))->format('M d, Y').' is successfully accepted!',
-            'title' => 'Booking',
-            'link' => '/user/bookings',
-            'action' => 'success'
         ];
 
         $user = $model->user;
