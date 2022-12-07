@@ -49,6 +49,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "./src/modules/admin/components/composables/company-composables.js":
+/*!*************************************************************************!*\
+  !*** ./src/modules/admin/components/composables/company-composables.js ***!
+  \*************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"loadCompanies\": function() { return /* binding */ loadCompanies; },\n/* harmony export */   \"showCompaniesInSelect\": function() { return /* binding */ showCompaniesInSelect; },\n/* harmony export */   \"storeCompany\": function() { return /* binding */ storeCompany; },\n/* harmony export */   \"updateCompany\": function() { return /* binding */ updateCompany; }\n/* harmony export */ });\n/* harmony import */ var _global_composables_http_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/global-composables/http_service */ \"./src/global-composables/http_service.js\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ \"./node_modules/vue/dist/vue.runtime.esm-bundler.js\");\n\n\nconst loadCompanies = params => {\n  const data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);\n  const total = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(0);\n  const load = async () => {\n    await (0,_global_composables_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get(`/company/companies?search=${params.search}&page=${params.page}&size=${params.page_size}`).then(res => {\n      data.value = res.data.data;\n      total.value = res.data.total;\n    }).catch(error => {\n      console.log('Error in getting company: ', error);\n    });\n  };\n  return {\n    load,\n    data,\n    total\n  };\n};\nconst storeCompany = company => {\n  const data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);\n  const errorData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);\n  const post = async () => {\n    await (0,_global_composables_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().post('/company/store', company).then(res => {\n      data.value = res.data;\n      errorData.value = null;\n    }).catch(error => {\n      errorData.value = error.response.data.errors;\n      console.log('Error in storing payment-method ->>', error);\n    });\n  };\n  return {\n    data,\n    post,\n    errorData\n  };\n};\nconst updateCompany = company => {\n  const data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);\n  const errorData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);\n  const update = async () => {\n    await (0,_global_composables_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().post(`/company/update/${company.id}`, company).then(res => {\n      data.value = res.data;\n      errorData.value = null;\n    }).catch(error => {\n      errorData.value = error.response.data.errors;\n      console.log('Error in storing payment-method ->>', error);\n    });\n  };\n  return {\n    data,\n    update,\n    errorData\n  };\n};\nconst showCompaniesInSelect = () => {\n  const data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);\n  const loadSelectCompanies = async () => {\n    await (0,_global_composables_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get(`/company/select-company`).then(res => {\n      data.value = res.data;\n    });\n  };\n  return {\n    loadSelectCompanies,\n    data\n  };\n};\n\n//# sourceURL=webpack://car-rental-frontend/./src/modules/admin/components/composables/company-composables.js?");
+
+/***/ }),
+
 /***/ "./src/modules/admin/components/composables/trackers-device-composables.js":
 /*!*********************************************************************************!*\
   !*** ./src/modules/admin/components/composables/trackers-device-composables.js ***!
@@ -116,6 +126,26 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"render\": function() { return /* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_40_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TrackersDeviceSettings_vue_vue_type_template_id_2ed1e5e8__WEBPACK_IMPORTED_MODULE_0__.render; }\n/* harmony export */ });\n/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_40_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_3_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_TrackersDeviceSettings_vue_vue_type_template_id_2ed1e5e8__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[0]!../../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!../../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./TrackersDeviceSettings.vue?vue&type=template&id=2ed1e5e8 */ \"./node_modules/babel-loader/lib/index.js??clonedRuleSet-40.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/modules/admin/components/settings/TrackersDeviceSettings.vue?vue&type=template&id=2ed1e5e8\");\n\n\n//# sourceURL=webpack://car-rental-frontend/./src/modules/admin/components/settings/TrackersDeviceSettings.vue?");
+
+/***/ }),
+
+/***/ "./node_modules/@heroicons/vue/24/outline/esm/CheckIcon.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@heroicons/vue/24/outline/esm/CheckIcon.js ***!
+  \*****************************************************************/
+/***/ (function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": function() { return /* binding */ render; }\n/* harmony export */ });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"./node_modules/vue/dist/vue.runtime.esm-bundler.js\");\n\nfunction render(_ctx, _cache) {\n  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(\"svg\", {\n    xmlns: \"http://www.w3.org/2000/svg\",\n    fill: \"none\",\n    viewBox: \"0 0 24 24\",\n    \"stroke-width\": \"1.5\",\n    stroke: \"currentColor\",\n    \"aria-hidden\": \"true\"\n  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)(\"path\", {\n    \"stroke-linecap\": \"round\",\n    \"stroke-linejoin\": \"round\",\n    d: \"M4.5 12.75l6 6 9-13.5\"\n  })]);\n}\n\n//# sourceURL=webpack://car-rental-frontend/./node_modules/@heroicons/vue/24/outline/esm/CheckIcon.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@heroicons/vue/24/solid/esm/MagnifyingGlassIcon.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@heroicons/vue/24/solid/esm/MagnifyingGlassIcon.js ***!
+  \*************************************************************************/
+/***/ (function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": function() { return /* binding */ render; }\n/* harmony export */ });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"./node_modules/vue/dist/vue.runtime.esm-bundler.js\");\n\nfunction render(_ctx, _cache) {\n  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(\"svg\", {\n    xmlns: \"http://www.w3.org/2000/svg\",\n    viewBox: \"0 0 24 24\",\n    fill: \"currentColor\",\n    \"aria-hidden\": \"true\"\n  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)(\"path\", {\n    \"fill-rule\": \"evenodd\",\n    d: \"M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z\",\n    \"clip-rule\": \"evenodd\"\n  })]);\n}\n\n//# sourceURL=webpack://car-rental-frontend/./node_modules/@heroicons/vue/24/solid/esm/MagnifyingGlassIcon.js?");
 
 /***/ })
 
