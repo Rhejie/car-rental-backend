@@ -36,6 +36,10 @@ class Vehicle extends Model
 
     }
 
+    public function bookings() {
+        return $this->hasMany(Booking::class, 'vehicle_id');
+    }
+
     public function color() {
         return $this->belongsTo(Color::class);
     }
@@ -54,5 +58,9 @@ class Vehicle extends Model
 
     public function vehiclePlace() {
         return $this->hasMany(VehiclePlaces::class, 'vehicle_id',  'id');
+    }
+
+    public function maintenance () {
+        return $this->hasMany(VehicleMaintenance::class, 'vehicle_id');
     }
 }

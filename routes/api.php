@@ -117,6 +117,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/image/undo', [App\Http\Controllers\VehicleController::class, 'undo']);
         Route::post('/update/{id}', [App\Http\Controllers\VehicleController::class, 'update']);
         Route::get('/select-vehicle', [App\Http\Controllers\VehicleController::class, 'selectVehicle']);
+        Route::get('/downlond-history/{id}', [App\Http\Controllers\BookingController::class, 'downloadBookingHistory']);
+        Route::get('/download-maintenance/{id}', [App\Http\Controllers\BookingController::class, 'downloadMaintenanceHistory']);
     });
 
     Route::prefix('/booking')->group(function () {

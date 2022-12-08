@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
 class InvoicesController extends Controller
@@ -14,8 +15,8 @@ class InvoicesController extends Controller
     }
 
     public function transactionForm() {
-        $book = Booking::with(['user', 'payments', 'vehicle.vehicleBrand', 'driver', 'payments.paymentMode'])->find(13);
+        $book = Vehicle::with(['maintenance', 'vehicleBrand'])->find(1);
 
-        return view('agreement.agreement',  ["item" => $book]);
+        return view('vehicle.maintenance',  ["item" => $book]);
     }
 }

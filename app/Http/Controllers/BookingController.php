@@ -6,6 +6,7 @@ use App\Http\Requests\Booking\DeployRequest;
 use App\Http\Requests\Booking\ReturnedRequest;
 use App\Http\Requests\Booking\StoreRequest;
 use App\Models\Booking;
+use App\Models\Vehicle;
 use App\Services\Admin\BookingService;
 use PDF;
 use Illuminate\Http\Request;
@@ -145,9 +146,25 @@ class BookingController extends Controller
 
         $book = Booking::with(['user', 'payments', 'vehicle.vehicleBrand', 'driver', 'payments.paymentMode'])->find($id);
 
-        $fileName = 'Invoice-'.$book->user->first_name.'-'.$book->user->last_name. time() . '.pdf';
+        $fileName = 'Agreement-form-'.$book->user->first_name.'-'.$book->user->last_name. time() . '.pdf';
         $pdf = new PDF;
         $pdf = PDF::loadView('agreement.agreement', ["item" => $book]);
+
+        $store = Storage::disk('local')->put('downloads/agreement/'.$fileName, $pdf->output());
+
+        $path = 'downloads/'.$fileName;
+
+        $url = Storage::disk('local')->url($path);
+
+        return Storage::disk('local')->download($path);
+    }
+
+    public function downloadBookingHistory($id) {
+        $book = Vehicle::with(['bookings', 'vehicleBrand'])->find($id);
+
+        $fileName = 'Vehicle-booking-history-'.$book->model.'-'.$book->make. time() . '.pdf';
+        $pdf = new PDF;
+        $pdf = PDF::loadView('vehicle.history', ["item" => $book]);
 
         $store = Storage::disk('local')->put('downloads/'.$fileName, $pdf->output());
 
@@ -156,5 +173,24 @@ class BookingController extends Controller
         $url = Storage::disk('local')->url($path);
 
         return Storage::disk('local')->download($path);
+
+    }
+
+    public function downloadMaintenanceHistory($id) {
+
+        $book = Vehicle::with(['maintenance', 'vehicleBrand'])->find($id);
+
+        $fileName = 'vehicle-maintenance-'.$book->model.'-'.$book->make. time() . '.pdf';
+        $pdf = new PDF;
+        $pdf = PDF::loadView('vehicle.maintenance', ["item" => $book]);
+
+        $store = Storage::disk('local')->put('downloads/'.$fileName, $pdf->output());
+
+        $path = 'downloads/'.$fileName;
+
+        $url = Storage::disk('local')->url($path);
+
+        return Storage::disk('local')->download($path);
+
     }
 }
