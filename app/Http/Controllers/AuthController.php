@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UpdateUserProfileRequest;
 use App\Models\User;
 use App\Services\Auth\AuthService;
 use Carbon\Carbon;
@@ -51,5 +52,26 @@ class AuthController extends Controller
         $user->save();
 
         return response()->json($user);
+    }
+
+    public function updateProfile($id, UpdateUserProfileRequest $request) {
+
+        $model = User::find($id);
+        $model->first_name = $request->first_name;
+        $model->last_name = $request->last_name;
+        $model->birthday = $request->birthday;
+        $model->email = $request->email;
+        $model->gender = $request->gender;
+        $model->contact_number = $request->contact_number;
+        $model->address = $request->address;
+
+        if(isset($request->change_password) && $request->change_password) {
+            $model->password = bcrypt($request->new_password);
+        }
+
+        $model->save();
+
+        $newUser = User::with('userIdentifications')->find($model->id);
+        return response()->json($newUser);
     }
 }

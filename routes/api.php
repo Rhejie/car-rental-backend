@@ -2,6 +2,7 @@
 
 use App\Events\SendUserNotification;
 use App\Jobs\SendingEmailVerificationJob;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    return User::with(['userIdentifications', 'role'])->find($request->user()->id);
 });
 
 Route::middleware('auth:sanctum')->post('/try', function () {
@@ -44,11 +45,22 @@ Route::get('/user/profile/restore', function (Request $request) {
     return $request->get('url');
 });
 
+Route::get('/hello', function () {
+    return 'adsd';
+});
+
 Route::middleware('auth:sanctum')->group(function () {
     // vehicle apis
     Route::get('/user/data', function (Request $request) {
         return 100;
     });
+
+    Route::prefix('profile')->group(function () {
+        Route::post('/update/{id}', [App\Http\Controllers\AuthController::class, 'updateProfile']);
+    });
+
+    Route::post('user/update/{id}', [App\Http\Controllers\AuthController::class, 'updateProfile']);
+
 
     Route::prefix('notification')->group(function () {
         Route::get('/user', [App\Http\Controllers\NotificationsController::class, 'getMyNotifications']);
