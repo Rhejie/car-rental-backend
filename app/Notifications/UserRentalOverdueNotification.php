@@ -49,7 +49,7 @@ class UserRentalOverdueNotification extends Notification
     {
         return [
             'user_id' => $this->user->id,
-            'message' => 'This is to inform you that booking of rent for' . $this->booking->vehicle->model . ' | ' .
+            'message' => 'This is to inform you that booking of rent for ' . $this->booking->vehicle->model . ' | ' .
                 $this->booking->vehicle->make . ' | ' .  $this->booking->vehicle->plate_number . '| returned: ' . (Carbon::parse($this->booking->booking_end))->format('M d, Y'). ' is overdue.',
             'title' => 'Rental Overdue',
             'link' => '/user/bookings',

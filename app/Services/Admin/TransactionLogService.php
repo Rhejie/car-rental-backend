@@ -2,14 +2,21 @@
 
 namespace App\Services\Admin;
 
+use App\Models\Driver;
 use App\Models\Payment;
 use App\Models\TransactionLog;
+use App\Models\VehicleMaintenance;
 
 class TransactionLogService
 {
 
     public function getTotalIncome () {
         $model = Payment::sum('price');
+        return response()->json($model);
+    }
+
+    public function getTotalExpenses () {
+        $model = VehicleMaintenance::sum('price');
         return response()->json($model);
     }
 
@@ -24,13 +31,80 @@ class TransactionLogService
                 $query->whereHas('paymentMode', function ($query) use ($params) {
                     $query->where('name', 'LIKE', "%$params->search");
                 });
-            })->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
+            });
 
+        }
+
+        if($params->year) {
+            $roles = $roles->whereYear('created_at', $params->year);
+        }
+
+        if($params->year && $params->month) {
+            $roles = $roles->whereMonth('created_at', $params->month);
         }
 
         $roles = $roles->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
 
         return response()->json($roles, 200);
+    }
+
+    public function getDriversReport($params) {
+
+        $drivers = Driver::withCount('booking');
+
+        if($params->search) {
+
+            $drivers = $drivers->where(function($query) use ($params) {
+                $query->orWhere('name', 'LIKE', "%$params->search%");
+            });
+
+        }
+
+        if($params->year) {
+            $drivers = $drivers->whereHas('booking', function ($query) use ($params) {
+                $query->whereYear('created_at', $params->year);
+            });
+        }
+
+        if($params->year && $params->month) {
+            $drivers = $drivers->whereHas('booking', function ($query) use ($params) {
+                $query->whereMonth('created_at', $params->month);
+            });
+        }
+
+        $drivers = $drivers->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
+
+        return response()->json($drivers, 200);
+
+    }
+
+    public function expensesList($params) {
+        $expenses = VehicleMaintenance::with(['vehicle.vehicleBrand']);
+
+        if($params->search) {
+
+            $expenses = $expenses->where(function($query) use ($params) {
+                $query->orWhere('type', 'LIKE', "%$params->search%");
+                $query->orWhereHas('vehicle', function ($query) use ($params) {
+                    $query->orWhere('model', 'LIKE', "%$params->search");
+                    $query->orWhere('make', 'LIKE', "%$params->search");
+                    $query->orWhere('plate_number', 'LIKE', "%$params->search");
+                });
+            });
+
+        }
+
+        if($params->year) {
+            $expenses = $expenses->whereYear('created_at', $params->year);
+        }
+
+        if($params->year && $params->month) {
+            $expenses = $expenses->whereMonth('created_at', $params->month);
+        }
+
+        $expenses = $expenses->orderBy('id', 'desc')->paginate($params->count, ['*'], 'page', $params->page);
+
+        return response()->json($expenses, 200);
     }
 
     public function getAllMonths()

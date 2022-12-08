@@ -47,6 +47,7 @@ class AuthService {
         $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->gender = $request->gender;
+        $user->birthday = $request->birthday;
         $user->contact_number = $request->contact_number;
         $user->address = $request->address;
         $user->password = bcrypt($request->password);

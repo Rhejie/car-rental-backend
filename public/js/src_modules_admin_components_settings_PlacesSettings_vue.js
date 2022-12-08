@@ -109,6 +109,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "./src/modules/admin/components/composables/place-composables.js":
+/*!***********************************************************************!*\
+  !*** ./src/modules/admin/components/composables/place-composables.js ***!
+  \***********************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"loadPlaces\": function() { return /* binding */ loadPlaces; },\n/* harmony export */   \"selectPlaces\": function() { return /* binding */ selectPlaces; },\n/* harmony export */   \"storePlace\": function() { return /* binding */ storePlace; },\n/* harmony export */   \"updatePlace\": function() { return /* binding */ updatePlace; }\n/* harmony export */ });\n/* harmony import */ var _global_composables_http_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/global-composables/http_service */ \"./src/global-composables/http_service.js\");\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ \"./node_modules/vue/dist/vue.runtime.esm-bundler.js\");\n\n\nconst loadPlaces = params => {\n  const data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);\n  const total = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(0);\n  const load = async () => {\n    await (0,_global_composables_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get(`/place/places?search=${params.search}&page=${params.page}&size=${params.page_size}`).then(res => {\n      data.value = res.data.data;\n      total.value = res.data.total;\n    }).catch(error => {\n      console.log('Error in getting Places: ', error);\n    });\n  };\n  return {\n    load,\n    data,\n    total\n  };\n};\nconst storePlace = place => {\n  const data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);\n  const errorData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);\n  const post = async () => {\n    await (0,_global_composables_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().post('/place/store', place).then(res => {\n      data.value = res.data;\n      errorData.value = null;\n    }).catch(error => {\n      errorData.value = error.response.data.errors;\n      console.log('Error in storing place ->>', error);\n    });\n  };\n  return {\n    data,\n    post,\n    errorData\n  };\n};\nconst updatePlace = place => {\n  const data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);\n  const errorData = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);\n  const update = async () => {\n    await (0,_global_composables_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().post(`/place/update/${place.id}`, place).then(res => {\n      data.value = res.data;\n      errorData.value = null;\n    }).catch(error => {\n      errorData.value = error.response.data.errors;\n      console.log('Error in storing place ->>', error);\n    });\n  };\n  return {\n    data,\n    update,\n    errorData\n  };\n};\nconst selectPlaces = searchVal => {\n  const data = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);\n  const search = async () => {\n    await (0,_global_composables_http_service__WEBPACK_IMPORTED_MODULE_0__.http)().get(`place/select-place?search=${searchVal}`).then(res => {\n      data.value = res.data;\n    }).catch(error => {\n      console.log('Error in fetch or searching place', error);\n    });\n  };\n  return {\n    search,\n    data\n  };\n};\n\n//# sourceURL=webpack://car-rental-frontend/./src/modules/admin/components/composables/place-composables.js?");
+
+/***/ }),
+
 /***/ "./src/components/GNotification.vue":
 /*!******************************************!*\
   !*** ./src/components/GNotification.vue ***!
@@ -266,6 +276,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ (function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
 
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": function() { return /* binding */ render; }\n/* harmony export */ });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"./node_modules/vue/dist/vue.runtime.esm-bundler.js\");\n\nfunction render(_ctx, _cache) {\n  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(\"svg\", {\n    xmlns: \"http://www.w3.org/2000/svg\",\n    viewBox: \"0 0 20 20\",\n    fill: \"currentColor\",\n    \"aria-hidden\": \"true\"\n  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)(\"path\", {\n    d: \"M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z\"\n  })]);\n}\n\n//# sourceURL=webpack://car-rental-frontend/./node_modules/@heroicons/vue/20/solid/esm/XMarkIcon.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@heroicons/vue/24/outline/esm/CheckCircleIcon.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@heroicons/vue/24/outline/esm/CheckCircleIcon.js ***!
+  \***********************************************************************/
+/***/ (function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": function() { return /* binding */ render; }\n/* harmony export */ });\n/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ \"./node_modules/vue/dist/vue.runtime.esm-bundler.js\");\n\nfunction render(_ctx, _cache) {\n  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(\"svg\", {\n    xmlns: \"http://www.w3.org/2000/svg\",\n    fill: \"none\",\n    viewBox: \"0 0 24 24\",\n    \"stroke-width\": \"1.5\",\n    stroke: \"currentColor\",\n    \"aria-hidden\": \"true\"\n  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)(\"path\", {\n    \"stroke-linecap\": \"round\",\n    \"stroke-linejoin\": \"round\",\n    d: \"M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z\"\n  })]);\n}\n\n//# sourceURL=webpack://car-rental-frontend/./node_modules/@heroicons/vue/24/outline/esm/CheckCircleIcon.js?");
 
 /***/ }),
 

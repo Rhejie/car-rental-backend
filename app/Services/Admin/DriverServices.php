@@ -48,6 +48,7 @@ class DriverServices {
         $model->name = $request->name;
         $model->license_no = $request->license_no;
         $model->license_expiration_date = $request->license_expiration_date;
+        $model->contact_number = $request->contact_number;
         $model->status = true;
         $model->save();
 
@@ -58,8 +59,9 @@ class DriverServices {
 
         $model = Driver::find($id);
         $model->name = $request->name;
-        $model->availability = $request->availability;
-        $model->price = $request->price;
+        $model->license_no = $request->license_no;
+        $model->license_expiration_date = $request->license_expiration_date;
+        $model->contact_number = $request->contact_number;
         $model->save();
 
         return response()->json($model, 200);

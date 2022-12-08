@@ -9,4 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Driver extends Model
 {
     use HasFactory, SoftDeletes;
+
+    public function booking() {
+        return $this->hasMany(Booking::class, 'driver_id');
+    }
 }

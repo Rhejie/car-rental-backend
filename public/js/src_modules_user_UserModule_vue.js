@@ -79,16 +79,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
-/***/ "./src/assets/APCLogo.jpg":
-/*!********************************!*\
-  !*** ./src/assets/APCLogo.jpg ***!
-  \********************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
-
-eval("module.exports = __webpack_require__.p + \"img/APCLogo.0a6f9029.jpg\";\n\n//# sourceURL=webpack://car-rental-frontend/./src/assets/APCLogo.jpg?");
-
-/***/ }),
-
 /***/ "./node_modules/@headlessui/vue/dist/components/disclosure/disclosure.js":
 /*!*******************************************************************************!*\
   !*** ./node_modules/@headlessui/vue/dist/components/disclosure/disclosure.js ***!

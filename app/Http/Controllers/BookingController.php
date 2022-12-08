@@ -35,6 +35,21 @@ class BookingController extends Controller
         return $this->bookingService->list(json_decode(json_encode($params)));
     }
 
+    public function allBookings(Request $request) {
+
+        $search = $request->search && $request->search != '' && $request->search !== 'null' ? $request->search: null ;
+        $page = $request->page ? $request->page : 1;
+        $count = $request->size ? $request->size : 10;
+
+        $params = [
+            'search' => $search,
+            'page' => $page,
+            'count' => $count
+        ];
+
+        return $this->bookingService->allBooking(json_decode(json_encode($params)));
+    }
+
     public function deployedList(Request $request) {
 
         $search = $request->search && $request->search != '' && $request->search !== 'null' ? $request->search: null ;
@@ -150,7 +165,7 @@ class BookingController extends Controller
         $pdf = new PDF;
         $pdf = PDF::loadView('agreement.agreement', ["item" => $book]);
 
-        $store = Storage::disk('local')->put('downloads/agreement/'.$fileName, $pdf->output());
+        $store = Storage::disk('local')->put('downloads/'.$fileName, $pdf->output());
 
         $path = 'downloads/'.$fileName;
 

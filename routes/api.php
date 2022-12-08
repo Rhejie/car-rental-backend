@@ -73,6 +73,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/monthly', [App\Http\Controllers\ReportController::class, 'monthly']);
         Route::get('/total-income', [App\Http\Controllers\ReportController::class, 'getTotalIncome']);
         Route::get('/payments', [App\Http\Controllers\ReportController::class, 'getPayments']);
+        Route::get('/total-expense', [App\Http\Controllers\ReportController::class, 'getSumExpenses']);
+        Route::get('/expenses', [App\Http\Controllers\ReportController::class, 'getTotalExpenses']);
+        Route::get('/total-drivers', [App\Http\Controllers\ReportController::class, 'totalDrivers']);
+        Route::get('/drivers-report', [App\Http\Controllers\ReportController::class, 'getDriversReport']);
     });
 
     Route::prefix('admin')
@@ -137,6 +141,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/transaction-form/{id}', [App\Http\Controllers\BookingController::class, 'transactionForm']);
         Route::get('/agreement/{id}', [App\Http\Controllers\BookingController::class, 'agreementForm']);
         Route::post('/overdue', [App\Http\Controllers\BookingController::class, 'overdue']);
+        Route::get('/all-booking', [App\Http\Controllers\BookingController::class, 'allBookings']);
     });
 
     Route::prefix('vehicle-place')->group(function () {

@@ -29,7 +29,7 @@ class BookingService
     public function list($params, $vehicle_id = null)
     {
 
-        $bookings = Booking::with(['vehicle' => function ($query) use ($params) {
+        $bookings = Booking::with(['driver', 'vehicle' => function ($query) use ($params) {
             $query->with(['vehicleBrand', 'tracker', 'vehicleImages', 'color', 'fuelType']);
         },  'user']);
 
@@ -73,6 +73,36 @@ class BookingService
         return response()->json($bookings, 200);
     }
 
+    public function allBooking($params) {
+
+        $bookings = Booking::with(['driver', 'vehicle' => function ($query) use ($params) {
+            $query->with(['vehicleBrand', 'tracker', 'vehicleImages', 'color', 'fuelType']);
+        },  'user']);
+
+        if ($params->search) {
+
+            $bookings = $bookings->where(function ($query) use ($params) {
+                // $query->orWhere('name', 'LIKE', "%$params->search%");
+                $query->whereHas('vehicle', function ($query) use ($params) {
+                    $query->where('model', 'LIKE', "%$params->search%");
+                    $query->orWhere('make', 'LIKE', "%$params->search%");
+                    $query->orWhereHas('vehicleBrand', function ($query) use ($params) {
+                        $query->where('name', 'LIKE', "%$params->search%");
+                    });
+                });
+                $query->whereHas('user', function ($query) use ($params) {
+                    $query->where('last_name', 'LIKE', "%$params->search%");
+                    $query->orWhere('first_name', 'LIKE', "%$params->search%");
+                });
+            });
+        }
+
+        $bookings = $bookings
+            ->orderBy('booking_start', 'asc')->paginate($params->count, ['*'], 'page', $params->page);
+
+        return response()->json($bookings, 200);
+    }
+
     public function deployedList($params, $vehicle_id = null)
     {
 
@@ -86,9 +116,14 @@ class BookingService
                 // $query->orWhere('name', 'LIKE', "%$params->search%");
                 $query->whereHas('vehicle', function ($query) use ($params) {
                     $query->where('model', 'LIKE', "%$params->search%");
+                    $query->orWhere('make', 'LIKE', "%$params->search%");
                     $query->orWhereHas('vehicleBrand', function ($query) use ($params) {
                         $query->where('name', 'LIKE', "%$params->search%");
                     });
+                });
+                $query->whereHas('user', function ($query) use ($params) {
+                    $query->where('last_name', 'LIKE', "%$params->search%");
+                    $query->orWhere('first_name', 'LIKE', "%$params->search%");
                 });
             });
         }

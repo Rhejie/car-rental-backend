@@ -27,6 +27,7 @@ class StoreRequest extends FormRequest
             'name' => 'required|string',
             'license_no' => 'required',
             'license_expiration_date' => 'required|date',
+            'contact_number' => 'required',
         ];
     }
 }

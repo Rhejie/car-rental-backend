@@ -31,6 +31,7 @@ class RegisterRequest extends FormRequest
             'password' => 'required|confirmed',
             'user_identification' => ['required'],
             'gender' => 'required',
+            'birthday' => 'required|date',
             'contact_number' => 'required',
             'address' => 'required',
             'user_selfi' => 'required'
