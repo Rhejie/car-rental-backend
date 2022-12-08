@@ -219,12 +219,20 @@ class BookingService
         $model->deployed = true;
         $model->driver_id = isset($request->driver) && $request->driver ? $request->driver['id'] : null;
         $model->add_driver = $request->add_driver;
+
+        if(!isset($model->add_driver) && !$model->add_driver) {
+            $model->primary_operator_name = $request->primary_operator_name;
+            $model->primary_operator_license_no = $request->primary_operator_license_no;
+            $model->secondary_operator_name = $request->secondary_operator_name;
+            $model->secondary_operator_license_no = $request->secondary_operator_license_no;
+        }
+
+
         $model->save();
 
         if($model->driver_id) {
             (new DriverServices)->updateDriverStatus($model->driver_id, false);
         }
-
 
         $params = [
             'transactionable_type' => 'App\Models\Booking',

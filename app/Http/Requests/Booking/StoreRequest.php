@@ -34,6 +34,7 @@ class StoreRequest extends FormRequest
             'booking_purpose' => 'required|string',
             'primary_operator_name' => 'exclude_unless:add_driver,false|required',
             'primary_operator_license_no' => 'exclude_unless:add_driver,false|required',
+            'secondary_operator_license_no' => ['exclude_unless:has_secondary,true', 'required',],
         ];
     }
 }
