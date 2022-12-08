@@ -3,6 +3,7 @@
 use App\Events\SendUserNotification;
 use App\Jobs\SendingEmailVerificationJob;
 use App\Models\User;
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return User::with(['userIdentifications', 'role'])->find($request->user()->id);
+});
+
+Route::get('/vehicles', function (Request $request) {
+    return response()->json(Vehicle::with(['vehicleImages'])->inRandomOrder()->limit(5)->get());
 });
 
 Route::middleware('auth:sanctum')->post('/try', function () {

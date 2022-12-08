@@ -69,8 +69,6 @@ class ReportController extends Controller
 
         $transactions = TransactionLog::with(['transactionable'])->whereYear('created_at', 2022)->whereMonth('created_at', 12)->get();
 
-        $transactions = TransactionLog::with(['transactionable'])->whereYear('created_at', 2022)->whereMonth('created_at', 12)->get();
-
         $fileName = 'monthly-report-' . 2022 . time() . '.pdf';
         $pdf = new PDF;
 
