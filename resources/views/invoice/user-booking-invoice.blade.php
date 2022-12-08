@@ -10,7 +10,6 @@
         <title>Fabcart</title>
         <style>
             body{
-                background-color: #F6F6F6;
                 margin: 0;
                 padding: 0;
                 font-family: roboto, arial, helvetica, sans-serif;
@@ -22,6 +21,7 @@
             p{
                 margin: 0;
                 padding: 0;
+                font-size: 12px;
             }
             .container{
                 width: 100%;
@@ -29,7 +29,7 @@
                 margin-left: auto;
             }
             .brand-section{
-               background-color: #0671c2;
+               background-color: darkcyan;
                padding: 10px 40px;
             }
             .logo{
@@ -79,6 +79,7 @@
             table th, table td {
                 padding-top: 08px;
                 padding-bottom: 08px;
+                font-size: 12px;
             }
             .table-bordered{
                 box-shadow: 0px 0px 5px 0.5px gray;
@@ -141,8 +142,8 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{(\Carbon\Carbon::parse($item->booking_start))->format('M d, Y h:m:s a')}}</td>
-                            <td>{{(\Carbon\Carbon::parse($item->booking_end))->format('M d, Y h:m:s a')}}</td>
+                            <td>{{(\Carbon\Carbon::parse($item->booking_start))->format('M d, Y h:m a')}}</td>
+                            <td>{{(\Carbon\Carbon::parse($item->booking_end))->format('M d, Y h:m a')}}</td>
                             <td>{{$item->vehicle->price}}</td>
                             <td>{{(\Carbon\Carbon::parse($item->booking_start))->diffInDays(\Carbon\Carbon::parse($item->booking_end))}}</td>
                             <td>{{$item->booking_status}}</td>
@@ -151,14 +152,27 @@
                             <td colspan="4" class="text-right">Sub Total</td>
                             <td>Php {{((\Carbon\Carbon::parse($item->booking_start))->diffInDays(\Carbon\Carbon::parse($item->booking_end))) * $item->vehicle->price}}</td>
                         </tr>
-                        {{-- <tr>
-                            <td colspan="4" class="text-right">Tax Total %1X</td>
-                            <td> 2</td>
-                        </tr>
+                    </tbody>
+                </table>
+
+                <br>
+                <h3 class="heading">Overcharges</h3>
+                <br>
+                <table class="table-bordered">
+                    <thead>
                         <tr>
-                            <td colspan="4" class="text-right">Grand Total</td>
-                            <td> 12.XX</td>
-                        </tr> --}}
+                            <th class="w-20">Type</th>
+                            <th class="w-20">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach ($item->overcharges as $charge)
+                        <tr>
+                            <td>{{$charge->overchargeType->name}}</td>
+                            <td>{{$charge->charge}}</td>
+                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
 
@@ -188,7 +202,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                @if ($item->driver && $item->driver->id && $item->add_driver)
+
                 <div class="row">
                     <div class="col-6">
                         <h2 class="heading">Driver</h2>
@@ -196,7 +210,7 @@
                         <p class="sub-heading"><span style="font-weight:bold">License Expiration Date: </span> {{$item->add_driver ? $item->driver->license_expiration_date : $item->primary_operator_license_no}} </p>
                     </div>
                 </div>
-                @endif
+
 
 
                 {{-- <h3 class="heading"><span style="font-weight:bold">Payment Status:</span> Paid</h3> --}}

@@ -33,4 +33,8 @@ class Booking extends Model
         return $this->belongsTo(Driver::class);
     }
 
+    public function overcharges() {
+        return $this->hasMany(Overcharge::class, 'booking_id');
+    }
+
 }

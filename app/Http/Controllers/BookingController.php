@@ -110,7 +110,7 @@ class BookingController extends Controller
 
     public function download($id) {
 
-        $book = Booking::with(['user', 'payments', 'vehicle', 'driver', 'payments.paymentMode'])->find($id);
+        $book = Booking::with(['user', 'payments', 'vehicle', 'driver', 'payments.paymentMode', 'overcharges.overchargeType'])->find($id);
 
         $fileName = 'Invoice-'.$book->user->first_name.'-'.$book->user->last_name. time() . '.pdf';
         $pdf = new PDF;
