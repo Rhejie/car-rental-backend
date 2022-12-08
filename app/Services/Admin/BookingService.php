@@ -15,6 +15,7 @@ use App\Notifications\BookDeclinedNotification;
 use App\Notifications\BookDeployedNotification;
 use App\Notifications\BookReturnedNotification;
 use App\Notifications\UserNotification;
+use App\Notifications\UserRentalOverdueNotification;
 use Carbon\Carbon;
 
 class BookingService
@@ -250,6 +251,17 @@ class BookingService
         (new PaymentService)->store($request, $model->id);
 
         return response()->json($this->getBookingById($model->id));
+    }
+
+    public function overdue($request) {
+        $model = Booking::find($request['id']);
+
+        $user = $model->user;
+
+        $user->notify(new UserRentalOverdueNotification($user, $model));
+
+        return response()->json(['message' => 'Successfully notifies']);
+
     }
 
     public function returned($id, $request) {

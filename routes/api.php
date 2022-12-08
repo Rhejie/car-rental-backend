@@ -134,6 +134,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/download/{id}', [App\Http\Controllers\BookingController::class, 'download']);
         Route::get('/transaction-form/{id}', [App\Http\Controllers\BookingController::class, 'transactionForm']);
         Route::get('/agreement/{id}', [App\Http\Controllers\BookingController::class, 'agreementForm']);
+        Route::post('/overdue', [App\Http\Controllers\BookingController::class, 'overdue']);
     });
 
     Route::prefix('vehicle-place')->group(function () {

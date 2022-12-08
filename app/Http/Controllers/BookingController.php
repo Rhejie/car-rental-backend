@@ -92,6 +92,10 @@ class BookingController extends Controller
         return $this->bookingService->deploy($id, $request);
     }
 
+    public function overdue(Request $request) {
+        return $this->bookingService->overdue($request->all());
+    }
+
     public function returned($id, ReturnedRequest $request) {
 
         return $this->bookingService->returned($id, $request);
