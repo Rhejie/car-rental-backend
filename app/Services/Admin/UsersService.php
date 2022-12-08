@@ -51,4 +51,19 @@ class UsersService {
 
         return response()->json(['message' => "No file found"]);
     }
+
+    public function updateAdmin($request) {
+        $model = User::find($request->id);
+        $model->last_name = $request->last_name;
+        $model->first_name = $request->first_name;
+        $model->contact_number = $request->contact_number;
+
+        if(isset($request->change_password) && $request->change_password) {
+            $model->password = bcrypt($request->new_password);
+        }
+
+        $model->save();
+
+        return response()->json($model);
+    }
 }

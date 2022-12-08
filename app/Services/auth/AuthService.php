@@ -45,6 +45,7 @@ class AuthService {
         $user = new User();
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
+        $user->middle_name = $request->middle_name;
         $user->email = $request->email;
         $user->gender = $request->gender;
         $user->birthday = $request->birthday;

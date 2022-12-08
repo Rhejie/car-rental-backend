@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\TransactionLog;
 use App\Models\Vehicle;
+use App\Services\Admin\TransactionLogService;
 use Illuminate\Http\Request;
 
 class InvoicesController extends Controller
@@ -15,8 +17,11 @@ class InvoicesController extends Controller
     }
 
     public function transactionForm() {
-        $book = Vehicle::with(['maintenance', 'vehicleBrand'])->find(1);
 
-        return view('vehicle.maintenance',  ["item" => $book]);
+        $date = '2022-12-8';
+
+        $transactions = TransactionLog::with(['transactionable'])->whereYear('created_at', 2022)->whereMonth('created_at', 12)->get();
+
+        return view('reports.monthly',  ["items" => $transactions, 'month' => 'December', 'year' => 2022]);
     }
 }

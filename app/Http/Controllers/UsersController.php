@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdminUpdateRequest;
 use App\Http\Requests\User\ProfileRequest;
 use App\Services\Admin\UsersService;
 use Illuminate\Http\Request;
@@ -37,5 +38,10 @@ class UsersController extends Controller
 
     public function removeImageInStorageInRegister(Request $request) {
         dd($request->all());
+    }
+
+    public function updateAdmin(AdminUpdateRequest $request)
+    {
+        return $this->usersService->updateAdmin($request);
     }
 }

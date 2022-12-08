@@ -70,6 +70,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('reports')->group(function () {
         Route::get('/get-months', [App\Http\Controllers\ReportController::class, 'getAllMonths']);
         Route::get('/daily', [App\Http\Controllers\ReportController::class, 'daily']);
+        Route::get('/download-dialy-report', [App\Http\Controllers\ReportController::class , 'dailyReportDownload']);
         Route::get('/monthly', [App\Http\Controllers\ReportController::class, 'monthly']);
         Route::get('/total-income', [App\Http\Controllers\ReportController::class, 'getTotalIncome']);
         Route::get('/payments', [App\Http\Controllers\ReportController::class, 'getPayments']);
@@ -92,6 +93,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/count-deployed-bookings', [App\Http\Controllers\DashboardController::class, 'countDeployedBookings']);
             Route::get('/count-returned-bookings', [App\Http\Controllers\DashboardController::class, 'countReturnedBookings']);
             Route::get('/count-vehicles', [App\Http\Controllers\DashboardController::class, 'countVehicles']);
+            Route::post('/update', [App\Http\Controllers\UsersController::class, 'updateAdmin']);
         });
 
     Route::get('/user-profile/{id}', [App\Http\Controllers\AuthController::class, 'getUserProfile']);
