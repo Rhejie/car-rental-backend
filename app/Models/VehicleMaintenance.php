@@ -12,6 +12,7 @@ class VehicleMaintenance extends Model
 
     protected $casts = [
         'created_at' =>  'datetime:Y-M-d',
+        'Date' => 'datetime:Y-M-d'
     ];
 
     public function vehicle() {

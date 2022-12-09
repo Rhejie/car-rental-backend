@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Driver;
+use App\Models\Payment;
 use App\Models\TransactionLog;
+use App\Models\VehicleMaintenance;
 use App\Services\Admin\TransactionLogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -69,6 +71,8 @@ class ReportController extends Controller
 
         $transactions = TransactionLog::with(['transactionable'])->whereYear('created_at', 2022)->whereMonth('created_at', 12)->get();
 
+        $transactions = TransactionLog::with(['transactionable'])->whereYear('created_at', 2022)->whereMonth('created_at', 12)->get();
+
         $fileName = 'monthly-report-' . 2022 . time() . '.pdf';
         $pdf = new PDF;
 
@@ -105,6 +109,43 @@ class ReportController extends Controller
         ];
 
         return $this->transactionLogService->expensesList(json_decode(json_encode($params)));
+    }
+
+    public function downloadExpenses(Request $request) {
+        $totalExpenes =  VehicleMaintenance::sum('price');
+
+        $year = $request->year ? $request->year : null;
+        $month = $request->month ? $request->month : null;
+        $monthInNumber = $request->month_in_number ? $request->month_in_number : null;
+
+        $roles = VehicleMaintenance::with(['vehicle.vehicleBrand']);
+
+        if($year) {
+
+            $roles = $roles->whereYear('created_at', $year);
+
+        }
+
+        if($year && $month) {
+
+            $roles = $roles->whereMonth('created_at', $monthInNumber);
+        }
+
+        $roles = $roles->get();
+
+        $fileName = 'Income-report-' . time() . '.pdf';
+
+        $pdf = new PDF;
+
+        $pdf = PDF::loadView('reports.expenses', ["items" => $roles, 'month' => $month, 'year' => $year, 'total' => $totalExpenes]);
+
+        $store = Storage::disk('local')->put('downloads/' . $fileName, $pdf->output());
+
+        $path = 'downloads/' . $fileName;
+
+        $url = Storage::disk('local')->url($path);
+
+        return Storage::disk('local')->download($path);
     }
 
     public function getSumExpenses()
@@ -153,5 +194,40 @@ class ReportController extends Controller
             'month' => $month
         ];
         return $this->transactionLogService->paymentList(json_decode(json_encode($params)));
+    }
+
+    public function downloadIncome(Request $request) {
+
+        $totalIncome = Payment::sum('price');
+
+        $year = $request->year ? $request->year : null;
+        $month = $request->month ? $request->month : null;
+        $monthInNumber = $request->month_in_number ? $request->month_in_number : null;
+
+        $income = Payment::with(['booking']);
+
+        if($year) {
+            $income = $income->whereYear('created_at', $year);
+        }
+
+        if($year && $monthInNumber) {
+            $income = $income->whereMonth('created_at', $monthInNumber);
+        }
+
+        $income = $income->get();
+
+        $fileName = 'Income-report-' . time() . '.pdf';
+
+        $pdf = new PDF;
+
+        $pdf = PDF::loadView('reports.income', ["items" => $income, 'month' => $month, 'year' => $year, 'total' => $totalIncome]);
+
+        $store = Storage::disk('local')->put('downloads/' . $fileName, $pdf->output());
+
+        $path = 'downloads/' . $fileName;
+
+        $url = Storage::disk('local')->url($path);
+
+        return Storage::disk('local')->download($path);
     }
 }

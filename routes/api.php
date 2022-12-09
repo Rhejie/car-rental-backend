@@ -76,10 +76,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/get-months', [App\Http\Controllers\ReportController::class, 'getAllMonths']);
         Route::get('/daily', [App\Http\Controllers\ReportController::class, 'daily']);
         Route::get('/download-dialy-report', [App\Http\Controllers\ReportController::class , 'dailyReportDownload']);
-        Route::get('/monthly', [App\Http\Controllers\ReportController::class, 'monthly']);
+        Route::get('/monthly', [App\Http\Controllers\InvoicesController::class, 'monthlyReport']);
         Route::get('/total-income', [App\Http\Controllers\ReportController::class, 'getTotalIncome']);
         Route::get('/payments', [App\Http\Controllers\ReportController::class, 'getPayments']);
+        Route::get('/download-income', [App\Http\Controllers\ReportController::class, 'downloadIncome']);
         Route::get('/total-expense', [App\Http\Controllers\ReportController::class, 'getSumExpenses']);
+        Route::get('/download-expense', [App\Http\Controllers\ReportController::class, 'downloadExpenses']);
         Route::get('/expenses', [App\Http\Controllers\ReportController::class, 'getTotalExpenses']);
         Route::get('/total-drivers', [App\Http\Controllers\ReportController::class, 'totalDrivers']);
         Route::get('/drivers-report', [App\Http\Controllers\ReportController::class, 'getDriversReport']);
