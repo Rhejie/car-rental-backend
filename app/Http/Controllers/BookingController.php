@@ -112,6 +112,10 @@ class BookingController extends Controller
         return $this->bookingService->overdue($request->all());
     }
 
+    public function exceeding(Request $request) {
+        return $this->bookingService->exceeding($request->all());
+    }
+
     public function returned($id, ReturnedRequest $request) {
 
         return $this->bookingService->returned($id, $request);

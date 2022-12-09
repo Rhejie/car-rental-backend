@@ -150,6 +150,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/transaction-form/{id}', [App\Http\Controllers\BookingController::class, 'transactionForm']);
         Route::get('/agreement/{id}', [App\Http\Controllers\BookingController::class, 'agreementForm']);
         Route::post('/overdue', [App\Http\Controllers\BookingController::class, 'overdue']);
+        Route::post('/exceeding', [App\Http\Controllers\BookingController::class, 'exceeding']);
         Route::get('/all-booking', [App\Http\Controllers\BookingController::class, 'allBookings']);
     });
 

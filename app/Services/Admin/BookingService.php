@@ -14,6 +14,7 @@ use App\Notifications\BookCancelNotification;
 use App\Notifications\BookDeclinedNotification;
 use App\Notifications\BookDeployedNotification;
 use App\Notifications\BookReturnedNotification;
+use App\Notifications\UserExceedingNotification;
 use App\Notifications\UserNotification;
 use App\Notifications\UserRentalOverdueNotification;
 use Carbon\Carbon;
@@ -297,6 +298,17 @@ class BookingService
 
         return response()->json(['message' => 'Successfully notifies']);
 
+    }
+
+    public function exceeding($request) {
+        
+        $model = Booking::find($request['id']);
+
+        $user = $model->user;
+
+        $user->notify(new UserExceedingNotification($user, $model));
+
+        return response()->json(['message' => 'Successfully notifies']);
     }
 
     public function returned($id, $request) {
