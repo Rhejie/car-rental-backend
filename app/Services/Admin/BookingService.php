@@ -9,6 +9,7 @@ use App\Jobs\PaymentJob;
 use App\Jobs\SavePaymentTransactionJob;
 use App\Jobs\TransactionLogJob;
 use App\Models\Booking;
+use App\Models\Vehicle;
 use App\Notifications\BookAcceptNotification;
 use App\Notifications\BookCancelNotification;
 use App\Notifications\BookDeclinedNotification;
@@ -263,7 +264,7 @@ class BookingService
             $model->secondary_operator_name = $request->secondary_operator_name;
             $model->secondary_operator_license_no = $request->secondary_operator_license_no;
         }
-
+        $model->price = $request->booking['vehicle']['price'];
 
         $model->save();
 
@@ -312,7 +313,6 @@ class BookingService
     }
 
     public function returned($id, $request) {
-
         $model = Booking::find($id);
         $model->returned = true;
         $model->save();
@@ -328,6 +328,11 @@ class BookingService
         ];
 
         $user = $model->user;
+
+
+        $vehicle = Vehicle::find($model->vehicle_id);
+        $vehicle->odometer = $request->booking['vehicle']['odometer'];
+        $vehicle->save();
 
         $user->notify(new BookReturnedNotification($user, $model));
 
