@@ -50,6 +50,10 @@ class BookingController extends Controller
         return $this->bookingService->allBooking(json_decode(json_encode($params)));
     }
 
+    public function allBooked() {
+        return $this->bookingService->allBooked();
+    }
+
     public function deployedList(Request $request) {
 
         $search = $request->search && $request->search != '' && $request->search !== 'null' ? $request->search: null ;

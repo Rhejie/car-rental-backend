@@ -134,7 +134,7 @@ class ReportController extends Controller
         $roles = $roles->get();
 
         $fileName = 'Income-report-' . time() . '.pdf';
-
+        
         $pdf = new PDF;
 
         $pdf = PDF::loadView('reports.expenses', ["items" => $roles, 'month' => $month, 'year' => $year, 'total' => $totalExpenes]);

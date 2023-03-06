@@ -105,6 +105,13 @@ class BookingService
         return response()->json($bookings, 200);
     }
 
+    public function allBooked() {
+
+        $booked = Booking::select(['booking_start', 'booking_end'])->where('booking_start', '>=', Carbon::now())->get();
+
+        return $booked;
+    }
+
     public function deployedList($params, $vehicle_id = null)
     {
 
@@ -302,7 +309,7 @@ class BookingService
     }
 
     public function exceeding($request) {
-        
+
         $model = Booking::find($request['id']);
 
         $user = $model->user;
