@@ -25,11 +25,13 @@ class BookingController extends Controller
         $search = $request->search && $request->search != '' && $request->search !== 'null' ? $request->search: null ;
         $page = $request->page ? $request->page : 1;
         $count = $request->size ? $request->size : 10;
+        $status_filter = $request->status_filter ? $request->status_filter : 'ALL';
 
         $params = [
             'search' => $search,
             'page' => $page,
-            'count' => $count
+            'count' => $count,
+            'status_filter' => $status_filter
         ];
 
         return $this->bookingService->list(json_decode(json_encode($params)));

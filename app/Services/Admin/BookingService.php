@@ -48,6 +48,18 @@ class BookingService
             });
         }
 
+        if ($params->status_filter != 'ALL') {
+            $bookings = $bookings->when($params->status_filter == 'ACCEPTDEPLOYED', function ($query) {
+                return $query->where('booking_status', 'accept')->orWhere('deployed', true);
+            })->when($params->status_filter == 'PENDING', function ($query) {
+                return $query->where('booking_status', 'pending');
+            })->when($params->status_filter == 'CANCEL', function ($query) {
+                return $query->where('booking_status', 'cancel');
+            })->when($params->status_filter == 'REJECTED', function ($query) {
+                return $query->where('booking_status', 'rejected');
+            });
+        }
+
         $role = $this->roleService->getCurrentUserRole();
 
         if ($role->name == 'user') {
@@ -56,17 +68,15 @@ class BookingService
         }
 
 
-        if($role->name == 'admin' && !$vehicle_id) {
+        if ($role->name == 'admin' && !$vehicle_id) {
 
             $bookings = $bookings->where('deployed', false);
-
         }
 
 
-        if(isset($vehicle_id) && $vehicle_id) {
+        if (isset($vehicle_id) && $vehicle_id) {
 
             $bookings = $bookings->where('vehicle_id', $vehicle_id);
-
         }
 
         $bookings = $bookings
@@ -75,7 +85,8 @@ class BookingService
         return response()->json($bookings, 200);
     }
 
-    public function allBooking($params) {
+    public function allBooking($params)
+    {
 
         $bookings = Booking::with(['driver', 'vehicle' => function ($query) use ($params) {
             $query->with(['vehicleBrand', 'tracker', 'vehicleImages', 'color', 'fuelType']);
@@ -105,7 +116,8 @@ class BookingService
         return response()->json($bookings, 200);
     }
 
-    public function allBooked() {
+    public function allBooked()
+    {
 
         $booked = Booking::select(['booking_start', 'booking_end'])->where('booking_start', '>=', Carbon::now())->get();
 
@@ -115,7 +127,7 @@ class BookingService
     public function deployedList($params, $vehicle_id = null)
     {
 
-        $bookings = Booking::with(['driver','vehicle' => function ($query) use ($params) {
+        $bookings = Booking::with(['driver', 'vehicle' => function ($query) use ($params) {
             $query->with(['vehicleBrand', 'tracker', 'vehicleImages']);
         }, 'user', 'payments.paymentMode']);
 
@@ -146,7 +158,8 @@ class BookingService
         return response()->json($bookings, 200);
     }
 
-    public function update($request, $id) {
+    public function update($request, $id)
+    {
 
         $model = Booking::find($id);
         $model->booking_start = $request->booking_start;
@@ -193,7 +206,8 @@ class BookingService
         return response()->json($this->getBookingById($model->id));
     }
 
-    public function accept($request) {
+    public function accept($request)
+    {
         $model = Booking::find($request->id);
         $model->booking_status = 'accept';
         $model->save();
@@ -213,7 +227,8 @@ class BookingService
         return response()->json($this->getBookingById($model->id));
     }
 
-    public function decline($request) {
+    public function decline($request)
+    {
         $model = Booking::find($request->id);
         $model->booking_status = 'decline';
         $model->save();
@@ -233,13 +248,14 @@ class BookingService
         return response()->json($this->getBookingById($model->id));
     }
 
-    public function cancel($request) {
+    public function cancel($request)
+    {
 
         $model = Booking::find($request->id);
         $model->booking_status = 'cancel';
         $model->save();
 
-        if($model->driver_id) {
+        if ($model->driver_id) {
             (new DriverServices)->updateDriverStatus($model->driver_id, true);
         }
 
@@ -258,14 +274,15 @@ class BookingService
         return response()->json($this->getBookingById($model->id));
     }
 
-    public function deploy($id, $request) {
+    public function deploy($id, $request)
+    {
 
         $model = Booking::find($id);
         $model->deployed = true;
         $model->driver_id = isset($request->driver) && $request->driver ? $request->driver['id'] : null;
         $model->add_driver = $request->add_driver;
 
-        if(!isset($model->add_driver) && !$model->add_driver) {
+        if (!isset($model->add_driver) && !$model->add_driver) {
             $model->primary_operator_name = $request->primary_operator_name;
             $model->primary_operator_license_no = $request->primary_operator_license_no;
             $model->secondary_operator_name = $request->secondary_operator_name;
@@ -275,7 +292,7 @@ class BookingService
 
         $model->save();
 
-        if($model->driver_id) {
+        if ($model->driver_id) {
             (new DriverServices)->updateDriverStatus($model->driver_id, false);
         }
 
@@ -297,7 +314,8 @@ class BookingService
         return response()->json($this->getBookingById($model->id));
     }
 
-    public function overdue($request) {
+    public function overdue($request)
+    {
         $model = Booking::find($request['id']);
 
         $user = $model->user;
@@ -305,10 +323,10 @@ class BookingService
         $user->notify(new UserRentalOverdueNotification($user, $model));
 
         return response()->json(['message' => 'Successfully notifies']);
-
     }
 
-    public function exceeding($request) {
+    public function exceeding($request)
+    {
 
         $model = Booking::find($request['id']);
 
@@ -319,12 +337,13 @@ class BookingService
         return response()->json(['message' => 'Successfully notifies']);
     }
 
-    public function returned($id, $request) {
+    public function returned($id, $request)
+    {
         $model = Booking::find($id);
         $model->returned = true;
         $model->save();
 
-        if($model->driver_id) {
+        if ($model->driver_id) {
             (new DriverServices)->updateDriverStatus($model->driver_id, true);
         }
         $params = [
@@ -345,11 +364,11 @@ class BookingService
 
         TransactionLogJob::dispatch($params);
 
-        if(!$request->is_fully_paid || collect($request->overcharges)->count() > 0) {
+        if (!$request->is_fully_paid || collect($request->overcharges)->count() > 0) {
             (new PaymentService)->store($request, $model->id);
         }
 
-        foreach($request->overcharges as $overcharge) {
+        foreach ($request->overcharges as $overcharge) {
 
             $params = [
                 'booking_id' => $model->id,
@@ -377,18 +396,19 @@ class BookingService
     public function getUserLatestBook()
     {
 
-        $model = Booking::with(['driver','vehicle' => function ($query) {
+        $model = Booking::with(['driver', 'vehicle' => function ($query) {
             $query->with(['vehicleBrand', 'tracker', 'vehicleImages']);
         }, 'user'])
-        ->where('user_id', auth()->user()->id)->where(function ($query) {
-            $query->where('booking_status', 'pending');
-            $query->orWhere('booking_status', 'accept');
-        })->where('booking_start', '>', Carbon::now())->orderBy('booking_start', 'asc')->first();
+            ->where('user_id', auth()->user()->id)->where(function ($query) {
+                $query->where('booking_status', 'pending');
+                $query->orWhere('booking_status', 'accept');
+            })->where('booking_start', '>', Carbon::now())->orderBy('booking_start', 'asc')->first();
 
         return response()->json($model);
     }
 
-    public function getDeployedBookingByVehicleId($id) {
+    public function getDeployedBookingByVehicleId($id)
+    {
         $model = Booking::select(['id', 'vehicle_id', 'deployed'])->where('vehicle_id', $id)->where('deployed', true)->first();
         return $model;
     }

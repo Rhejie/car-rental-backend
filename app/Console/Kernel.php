@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('rental:due')->everyMinute();
+        $schedule->command('rental:due')->everyTwoHours();
+        $schedule->command('delete:oldNotif')->everyFifteenMinutes();
     }
 
     /**

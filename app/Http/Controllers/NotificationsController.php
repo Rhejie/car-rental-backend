@@ -15,8 +15,11 @@ class NotificationsController extends Controller
     }
 
 
-    public function getMyNotifications() {
-        return $this->notficationsService->getMyNotifications();
+    public function getMyNotifications(Request $request) {
+        $params = [
+            'status_filter' => $request->status_filter ? $request->status_filter : 'ALL'
+        ];
+        return $this->notficationsService->getMyNotifications(json_decode(json_encode($params)));
     }
 
     public function viewNotif($id) {

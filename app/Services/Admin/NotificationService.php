@@ -16,9 +16,62 @@ class NotificationService {
         // $model->save();
     }
 
-    public function getMyNotifications() {
+    public function getMyNotifications($params) {
 
         $model = auth()->user()->notifications;
+        $searchTerm = null;
+
+        if($params->status_filter != 'ALL') {
+
+            if($params->status_filter == 'ACCEPT') {
+                $searchTerm = 'accepted';
+                $model = collect($model)->filter(function ($item) use ($searchTerm) {
+                    return str_contains(strtolower(implode(', ', $item['data'])), strtolower($searchTerm));
+                });
+            }
+
+            if($params->status_filter == 'PENDING') {
+                $searchTerm = 'booked';
+                $model = collect($model)->filter(function ($item) use ($searchTerm) {
+                    return str_contains(strtolower(implode(', ', $item['data'])), strtolower($searchTerm));
+                });
+            }
+
+            if($params->status_filter == 'CANCEL') {
+                $searchTerm = 'cancelled';
+                $model = collect($model)->filter(function ($item) use ($searchTerm) {
+                    return str_contains(strtolower(implode(', ', $item['data'])), strtolower($searchTerm));
+                });
+            }
+
+            if($params->status_filter == 'REJECTED') {
+                $searchTerm = 'declined';
+                $model = collect($model)->filter(function ($item) use ($searchTerm) {
+                    return str_contains(strtolower(implode(', ', $item['data'])), strtolower($searchTerm));
+                });
+            }
+
+            if($params->status_filter == 'RETURNED') {
+                $searchTerm = 'returned';
+                $model = collect($model)->filter(function ($item) use ($searchTerm) {
+                    return str_contains(strtolower(implode(', ', $item['data'])), strtolower($searchTerm));
+                });
+            }
+
+            if($params->status_filter == 'DEPLOYED') {
+                $searchTerm = 'deployed';
+                $model = collect($model)->filter(function ($item) use ($searchTerm) {
+                    return str_contains(strtolower(implode(', ', $item['data'])), strtolower($searchTerm));
+                });
+            }
+
+            if($params->status_filter == 'RENTAL_OVERDUE') {
+                $searchTerm = 'Rental Overdue';
+                $model = collect($model)->filter(function ($item) use ($searchTerm) {
+                    return str_contains(strtolower(implode(', ', $item['data'])), strtolower($searchTerm));
+                });
+            }
+        }
 
         return response()->json($model);
     }
