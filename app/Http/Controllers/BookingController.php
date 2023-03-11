@@ -52,8 +52,8 @@ class BookingController extends Controller
         return $this->bookingService->allBooking(json_decode(json_encode($params)));
     }
 
-    public function allBooked() {
-        return $this->bookingService->allBooked();
+    public function allBooked($id) {
+        return $this->bookingService->allBooked($id);
     }
 
     public function deployedList(Request $request) {
@@ -80,7 +80,8 @@ class BookingController extends Controller
         $params = [
             'search' => $search,
             'page' => $page,
-            'count' => $count
+            'count' => $count,
+            'status_filter' => 'ALL'
         ];
 
         return $this->bookingService->list(json_decode(json_encode($params)), $vehicle_id);

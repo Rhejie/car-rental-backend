@@ -51,7 +51,7 @@ class UserNotification extends Notification implements ShouldBroadcast
     {
         return [
             'user_id' => $this->user->id,
-            'message' => 'Your destination to '.$this->booking->destination.' on '. (Carbon::parse($this->booking->booking_start))->format('M d, Y').' is successfully booked!',
+            'message' => 'Your destination to '.$this->booking->destination.' on '. (Carbon::parse($this->booking->booking_start))->format('M d, Y').' is reserve!',
             'title' => 'Booking',
             'link' => '/user/bookings',
             'action' => 'success'
@@ -62,7 +62,7 @@ class UserNotification extends Notification implements ShouldBroadcast
         $notification = [
             'data' => [
                 'user_id' => $this->user->id,
-                'message' => 'Your destination to '.$this->booking->destination.' on '. (Carbon::parse($this->booking->booking_start))->format('M d, Y').' is successfully booked!',
+                'message' => 'Your destination to '.$this->booking->destination.' on '. (Carbon::parse($this->booking->booking_start))->format('M d, Y').' is reserve!',
                 'title' => 'Booking',
                 'link' => '/user/bookings',
                 'action' => 'success'

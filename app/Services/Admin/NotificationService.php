@@ -24,14 +24,14 @@ class NotificationService {
         if($params->status_filter != 'ALL') {
 
             if($params->status_filter == 'ACCEPT') {
-                $searchTerm = 'accepted';
+                $searchTerm = 'successfuly reserve';
                 $model = collect($model)->filter(function ($item) use ($searchTerm) {
                     return str_contains(strtolower(implode(', ', $item['data'])), strtolower($searchTerm));
                 });
             }
 
             if($params->status_filter == 'PENDING') {
-                $searchTerm = 'booked';
+                $searchTerm = 'is reserve';
                 $model = collect($model)->filter(function ($item) use ($searchTerm) {
                     return str_contains(strtolower(implode(', ', $item['data'])), strtolower($searchTerm));
                 });

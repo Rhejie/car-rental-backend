@@ -152,7 +152,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/overdue', [App\Http\Controllers\BookingController::class, 'overdue']);
         Route::post('/exceeding', [App\Http\Controllers\BookingController::class, 'exceeding']);
         Route::get('/all-booking', [App\Http\Controllers\BookingController::class, 'allBookings']);
-        Route::get('/all-booked', [App\Http\Controllers\BookingController::class, 'allBooked']);
+        Route::get('/all-booked/{id}', [App\Http\Controllers\BookingController::class, 'allBooked']);
     });
 
     Route::prefix('vehicle-place')->group(function () {

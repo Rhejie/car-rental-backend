@@ -116,10 +116,10 @@ class BookingService
         return response()->json($bookings, 200);
     }
 
-    public function allBooked()
+    public function allBooked($id)
     {
 
-        $booked = Booking::select(['booking_start', 'booking_end'])->where('booking_start', '>=', Carbon::now())->get();
+        $booked = Booking::select(['booking_start', 'booking_end'])->where('booking_start', '>=', Carbon::now())->where('vehicle_id', $id)->get();
 
         return $booked;
     }
