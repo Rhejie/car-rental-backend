@@ -101,6 +101,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/count-returned-bookings', [App\Http\Controllers\DashboardController::class, 'countReturnedBookings']);
             Route::get('/count-vehicles', [App\Http\Controllers\DashboardController::class, 'countVehicles']);
             Route::post('/update', [App\Http\Controllers\UsersController::class, 'updateAdmin']);
+            Route::get('/dashboard-data', [App\Http\Controllers\DashboardController::class, 'dashboardData']);
         });
 
     Route::get('/user-profile/{id}', [App\Http\Controllers\AuthController::class, 'getUserProfile']);

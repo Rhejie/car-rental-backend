@@ -13,6 +13,10 @@ class DashboardController extends Controller
         $this->dashboardService = new DashboardService();
     }
 
+    public function dashboardData() {
+        return $this->dashboardService->dashboardData();
+    }
+
     public function countUsers() {
         return $this->dashboardService->countUsers();
     }

@@ -119,7 +119,7 @@ class BookingService
     public function allBooked($id)
     {
 
-        $booked = Booking::select(['booking_start', 'booking_end'])->where('booking_start', '>=', Carbon::now())->where('vehicle_id', $id)->get();
+        $booked = Booking::select(['booking_start', 'booking_end', 'vehicle_id'])->where('booking_end', '>=', Carbon::now())->where('vehicle_id', $id)->get();
 
         return $booked;
     }
