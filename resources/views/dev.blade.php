@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <!--[if IE]><link rel="icon" href="/favicon.ico"><![endif]-->
+    <!--[if IE]><link rel="icon" href="/APCLogo.ico"><![endif]-->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>car-rental-frontend</title>
+    <title>APC Car Rental</title>
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css" rel="stylesheet">
 <script src="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js"></script>
     
