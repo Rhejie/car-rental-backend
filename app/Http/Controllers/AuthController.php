@@ -54,6 +54,14 @@ class AuthController extends Controller
         return response()->json($user);
     }
 
+    public function blockUser($id) {
+        $user = User::find($id);
+        $user->is_block = $user->is_block == true ? false : true;
+        $user->save();
+
+        return response()->json($user);
+    }
+
     public function updateProfile($id, UpdateUserProfileRequest $request) {
 
         $model = User::find($id);

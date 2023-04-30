@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\EmailBlockRule;
 use App\Rules\EmailValidateRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,7 +26,7 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'email', new EmailValidateRule],
+            'email' => ['required', 'email', new EmailValidateRule, new EmailBlockRule],
             'password' => 'required'
         ];
     }

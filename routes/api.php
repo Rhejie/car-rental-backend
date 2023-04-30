@@ -112,6 +112,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('user')->group(function () {
         Route::get('/list', [App\Http\Controllers\UsersController::class, 'list']);
         Route::post('/verified/{id}', [App\Http\Controllers\AuthController::class, 'verifiedUser']);
+        Route::post('/block/{id}', [App\Http\Controllers\AuthController::class, 'blockUser']);
 
     });
 
