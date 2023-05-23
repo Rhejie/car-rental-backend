@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Jobs\PaymentTransactionLogJob;
 use App\Models\Payment;
+use App\Services\Admin\TransactionLogService;
 
 class PaymentObserver
 {
@@ -16,6 +17,15 @@ class PaymentObserver
     public function created(Payment $payment)
     {
         PaymentTransactionLogJob::dispatch($payment);
+
+        $params = [
+            'transactionable_type' => 'App\Models\Payment',
+            'transactionable_id' => $payment->id,
+            'type' => 'payment',
+            'process' => 'payment'
+        ];
+
+        (new TransactionLogService())->store($params);
     }
 
     /**
