@@ -44,7 +44,12 @@ class UsersService {
             $folder = "/user/profile";
             $media = $request->file('file');
             $name = time() . '.' . $media->extension();
-            $link = $media->storeAs($folder, $name, 'public');
+            // $link = $media->storeAs($folder, $name, 'public');
+
+            $file = $request->file('file');
+            $file->move(public_path('uploads'), $name);
+
+            $link = '/uploads/' . $name;
 
             return response()->json($link);
         }

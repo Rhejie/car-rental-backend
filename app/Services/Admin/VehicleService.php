@@ -118,13 +118,15 @@ class VehicleService {
             $folder = "/vehicle/images";
             $media = $request->file('file');
             $name = $vehicle->model.'--'.time() . '.' . $media->extension();
-            $link = $media->storeAs($folder, $name, 'public');
+            // $link = $media->storeAs($folder, $name, 'public');
+            $file = $request->file('file');
+            $file->move(public_path('uploads'), $name);
 
 
 
             $params = [
                 'vehicle_id' => $request->vehicle_id,
-                'link' => $link,
+                'link' => '/uploads/' . $name,
             ];
 
             $file = new VehicleImageService();

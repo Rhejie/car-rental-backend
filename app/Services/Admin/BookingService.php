@@ -208,6 +208,14 @@ class BookingService
 
         broadcast(new NewAddedBookingEvent($user, $model))->toOthers();
 
+        $params = [
+            'transactionable_type' => 'App\Models\Booking',
+            'transactionable_id' => $model->id,
+            'type' => 'booking',
+            'process' => 'accept'
+        ];
+        (new TransactionLogService())->store($params);
+
         return response()->json($this->getBookingById($model->id));
     }
 
@@ -229,6 +237,7 @@ class BookingService
         $user->notify(new BookAcceptNotification($user, $model));
 
         TransactionLogJob::dispatch($params);
+        (new TransactionLogService())->store($params);
         return response()->json($this->getBookingById($model->id));
     }
 
@@ -250,6 +259,7 @@ class BookingService
         $user->notify(new BookDeclinedNotification($user, $model));
 
         TransactionLogJob::dispatch($params);
+        (new TransactionLogService())->store($params);
         return response()->json($this->getBookingById($model->id));
     }
 
@@ -276,6 +286,7 @@ class BookingService
         $user->notify(new BookCancelNotification($user, $model));
 
         TransactionLogJob::dispatch($params);
+        (new TransactionLogService())->store($params);
         return response()->json($this->getBookingById($model->id));
     }
 
@@ -314,6 +325,7 @@ class BookingService
 
         TransactionLogJob::dispatch($params);
 
+        (new TransactionLogService())->store($params);
         (new PaymentService)->store($request, $model->id);
 
         return response()->json($this->getBookingById($model->id));
@@ -368,6 +380,8 @@ class BookingService
         $user->notify(new BookReturnedNotification($user, $model));
 
         TransactionLogJob::dispatch($params);
+
+        (new TransactionLogService())->store($params);
 
         if (!$request->is_fully_paid || collect($request->overcharges)->count() > 0) {
             (new PaymentService)->store($request, $model->id);
